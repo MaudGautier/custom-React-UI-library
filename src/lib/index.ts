@@ -1,12 +1,14 @@
 export type VirtualDomElement = {
   tag: "div",
-  children: VirtualDomElement[] | string
+  children: VirtualDomElement[] | string,
+  className?: string;
 }
 
 
 
 export function interpret (virtualDomElement: VirtualDomElement): Element {
   const element = document.createElement(virtualDomElement.tag)
+  element.className = virtualDomElement.className
 
   if (typeof virtualDomElement.children === "string") {
     element.textContent = virtualDomElement.children

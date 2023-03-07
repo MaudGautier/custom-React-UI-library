@@ -1,4 +1,4 @@
-import { bootstrapApplication, interpret, VirtualDomElement } from "./lib";
+import { bootstrapApplication, VirtualDomElement } from "./lib";
 
 type ListElementProps = {
   elementText: string;
@@ -7,7 +7,8 @@ type ListElementProps = {
 function ListElement ({elementText}: ListElementProps): VirtualDomElement {
   return {
     tag: "div",
-    children: elementText
+    children: elementText,
+    className: "item",
   }
 }
 
