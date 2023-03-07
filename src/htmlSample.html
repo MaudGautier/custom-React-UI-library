@@ -14,9 +14,10 @@
   <p>
     On recode react
   </p>
-  <button onclick="alert('toto')">Alert toto</button>
-  <button onclick="consoleLogToto()">Console log toto</button>
-  <button onclick="addItemToTodoList(1)">Add 1</button>
+  <ul id="todoList">
+  </ul>
+  <input type="text" id="listInput"/>
+  <button onclick="handleAddInput('listInput', 'todoList')">Insert new value in list</button>
 </div>
 </body>
 </html>

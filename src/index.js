@@ -1,12 +1,24 @@
-function consoleLogToto () {
-  console.log("toto")
+function addElementToList (textElement, parentId) {
+  const parent = document.getElementById(parentId)
+
+  const element = ListElement(textElement)
+
+  parent.append(element)
 }
 
 
-TODO_LIST = []
 
-function addItemToTodoList (item) {
-  console.log("TODO LIST without item", TODO_LIST)
-  TODO_LIST.push(item)
-  console.log("TODO LIST with item", TODO_LIST)
+function ListElement (text) {
+  const element = document.createElement("li")
+  element.textContent = text
+
+  return element
+}
+
+
+function handleAddInput (elementId, parentId) {
+  const value = document.getElementById(elementId).value
+
+  addElementToList(value, parentId)
+
 }
