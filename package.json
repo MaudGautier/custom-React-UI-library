@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This custom TS library allows to create interactive UI for web applications. It aims at re-implementing the existing \"React\" library so as to understand its underlying principles.",
   "author": "Maud Gautier",
-  "main": "src/index.ts",
+  "main": "src/index.js",
   "scripts": {
     "test": "jest --watch --coverage",
     "serve": "serve src/",
