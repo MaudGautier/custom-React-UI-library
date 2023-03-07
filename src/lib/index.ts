@@ -6,12 +6,9 @@ export type VirtualDomElement = {
 
 
 export function interpret (virtualDomElement: VirtualDomElement): Element {
-  console.log("IN INTERPRETER")
   const element = document.createElement(virtualDomElement.tag)
-  console.log("element", element)
 
   if (typeof virtualDomElement.children === "string") {
-    console.log("IN STRING ELEMENT")
     element.textContent = virtualDomElement.children
 
     return element
@@ -21,6 +18,13 @@ export function interpret (virtualDomElement: VirtualDomElement): Element {
 
 
   return element
+
+}
+
+export function bootstrapApplication (rootId: string, application: VirtualDomElement): void {
+  const root = document.getElementById(rootId)
+
+  root.append(interpret(application))
 
 }
 

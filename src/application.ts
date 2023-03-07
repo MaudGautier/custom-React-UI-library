@@ -1,4 +1,4 @@
-import {interpret, VirtualDomElement} from "./lib"
+import { bootstrapApplication, interpret, VirtualDomElement } from "./lib";
 
 type ListElementProps = {
   elementText: string;
@@ -23,16 +23,9 @@ function List (): VirtualDomElement {
 }
 
 function renderDom () {
-  console.log("test")
-  const application = interpret(List())
-  console.log({application})
-  const root = document.getElementById("root")
-  console.log({root})
+  const application = List()
 
-  root.append(application)
-
+  bootstrapApplication("root", application)
 }
 
 renderDom()
-
-console.log("DONE")
