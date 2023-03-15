@@ -13,18 +13,40 @@ function ListElement ({elementText}: ListElementProps): VirtualDomElement {
 }
 
 
-function List (): VirtualDomElement {
+function List ({children = []}): VirtualDomElement {
 
-  const CHILDREN = ["element1", "element2"]
+  // const CHILDREN = ["element1", "element2"]
 
   return {
     tag: "div",
-    children: CHILDREN.map(child => ListElement({elementText: child}))
+    children: children.map(child => ListElement({elementText: child}))
   }
 }
 
+
+function Button (): VirtualDomElement {
+
+  return {
+    tag: "button",
+    children: "Click on button",
+    onClick: () => console.log("Clicked on button")
+  }
+
+}
+
+function Div ({children}): VirtualDomElement {
+  return {
+    tag: "div",
+    children
+  }
+}
+
+
 function renderDom () {
-  const application = List()
+  const children = ["elemnt1"]
+  const lst = List({children})
+  const button = Button()
+  const application = Div({children: [lst, button]})
 
   bootstrapApplication("root", application)
 }

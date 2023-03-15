@@ -1,14 +1,16 @@
 export type VirtualDomElement = {
-  tag: "div",
+  tag: "div" | "button",
   children: VirtualDomElement[] | string,
   className?: string;
+  onClick?: () => void;
 }
-
-
 
 export function interpret (virtualDomElement: VirtualDomElement): Element {
   const element = document.createElement(virtualDomElement.tag)
-  element.className = virtualDomElement.className
+  element.className = virtualDomElement.className;
+  if (virtualDomElement.onClick) {
+    element.onclick = virtualDomElement.onClick
+  }
 
   if (typeof virtualDomElement.children === "string") {
     element.textContent = virtualDomElement.children
