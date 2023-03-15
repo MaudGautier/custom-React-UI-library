@@ -24,12 +24,11 @@ function List ({children = []}): VirtualDomElement {
 }
 
 
-function Button (): VirtualDomElement {
-
+function Button ({onClick}): VirtualDomElement {
   return {
     tag: "button",
     children: "Click on button",
-    onClick: () => console.log("Clicked on button")
+    onClick,
   }
 
 }
@@ -41,11 +40,19 @@ function Div ({children}): VirtualDomElement {
   }
 }
 
+const STATE = {
+  todoList: []
+}
 
 function renderDom () {
-  const children = ["elemnt1"]
-  const lst = List({children})
-  const button = Button()
+  const onClick = () => {
+    console.log("todoList BEFORE UPDATE", STATE.todoList)
+    STATE.todoList.push("NEW EL");
+    console.log("todoList AFTER UPDATE", STATE.todoList)
+    renderDom()
+  }
+  const lst = List({children: STATE.todoList})
+  const button = Button({onClick})
   const application = Div({children: [lst, button]})
 
   bootstrapApplication("root", application)

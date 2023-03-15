@@ -28,7 +28,9 @@ export function interpret (virtualDomElement: VirtualDomElement): Element {
 export function bootstrapApplication (rootId: string, application: VirtualDomElement): void {
   const root = document.getElementById(rootId)
 
-  root.append(interpret(application))
+  root.replaceChildren(interpret(application))
+
+
 
 }
 
