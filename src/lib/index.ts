@@ -25,11 +25,41 @@ export function interpret (virtualDomElement: VirtualDomElement): Element {
 
 }
 
+
+
+export function useState <State>(initialValue): [state: State, updateState: (t: State) => void] {
+  let state = initialValue;
+
+  const updateState = <State>(updatedState: State): void => {
+    state = updatedState
+    // render()
+  }
+
+  return [
+    state,
+    updateState,
+  ]
+}
+
+let render = undefined;
+
+let LIBRARY_STATE = {}
+
 export function bootstrapApplication (rootId: string, application: VirtualDomElement): void {
-  const root = document.getElementById(rootId)
 
-  root.replaceChildren(interpret(application))
+  function renderDom () {
+    const root = document.getElementById(rootId)
+    // console.log("LIBRARY_STATE", LIBRARY_STATE)
+    // root.replaceChildren(interpret(application))
 
+      root.replaceChildren(interpret(application))
+      renderDom()
+
+  }
+
+  render = renderDom
+
+  render()
 
 
 }

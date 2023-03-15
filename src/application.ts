@@ -1,4 +1,4 @@
-import { bootstrapApplication, VirtualDomElement } from "./lib";
+import { bootstrapApplication, useState, VirtualDomElement } from "./lib";
 
 type ListElementProps = {
   elementText: string;
@@ -15,7 +15,6 @@ function ListElement ({elementText}: ListElementProps): VirtualDomElement {
 
 function List ({children = []}): VirtualDomElement {
 
-  // const CHILDREN = ["element1", "element2"]
 
   return {
     tag: "div",
@@ -40,22 +39,28 @@ function Div ({children}): VirtualDomElement {
   }
 }
 
-const STATE = {
-  todoList: []
-}
 
-function renderDom () {
+
+
+
+function Application () {
+  console.log("In application")
+  const [todoList, updateTodoList] = useState<string[]>([])
   const onClick = () => {
-    console.log("todoList BEFORE UPDATE", STATE.todoList)
-    STATE.todoList.push("NEW EL");
-    console.log("todoList AFTER UPDATE", STATE.todoList)
-    renderDom()
+    console.log("CL")
+    updateTodoList([...todoList, "NEW ELEMENT"])
+    console.log("CLICKED", todoList)
   }
-  const lst = List({children: STATE.todoList})
+
+  const lst = List({children: todoList})
   const button = Button({onClick})
   const application = Div({children: [lst, button]})
 
-  bootstrapApplication("root", application)
+  return application
+
+
 }
 
-renderDom()
+const application = Application()
+bootstrapApplication("root", application)
+// renderDom()
