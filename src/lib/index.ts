@@ -25,19 +25,19 @@ export function interpret (virtualDomElement: VirtualDomElement): Element {
 
 }
 
-let state;
+let state = {};
 
-export function useState <State>(initialValue): [getState: () => State, updateState: (t: State) => void] {
+export function useState <State>(initialValue, slug): [getState: () => State, updateState: (t: State) => void] {
   const getState = <State>(): State => {
-    return state;
+    return state[slug];
   }
   if (!getState()) {
-    state = initialValue;
+    state[slug] = initialValue;
   }
 
 
   const updateState = <State>(updatedState: State): void => {
-    state = updatedState
+    state[slug] = updatedState
     render()
   }
 
