@@ -44,15 +44,13 @@ function Div ({children}): VirtualDomElement {
 
 
 function Application () {
-  console.log("In application")
-  const [todoList, updateTodoList] = useState<string[]>([])
+  const [getTodoList, updateTodoList] = useState<string[]>([])
   const onClick = () => {
-    console.log("CL")
-    updateTodoList([...todoList, "NEW ELEMENT"])
-    console.log("CLICKED", todoList)
+    updateTodoList([...getTodoList(), "NEW ELEMENT"])
   }
 
-  const lst = List({children: todoList})
+
+  const lst = List({children: getTodoList()})
   const button = Button({onClick})
   const application = Div({children: [lst, button]})
 
@@ -61,6 +59,5 @@ function Application () {
 
 }
 
-const application = Application()
-bootstrapApplication("root", application)
+bootstrapApplication("root", Application)
 // renderDom()
