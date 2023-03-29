@@ -1,11 +1,11 @@
 import { VirtualDomElement } from "./index";
 
-type SetChildrenModification = {
+export type SetChildrenModification = {
   id: string;
   children: VirtualDomElement[];
   type: "setChildren";
 };
-type SetTextModification = {
+export type SetTextModification = {
   id: string;
   children: string;
   type: "setText";

@@ -65,11 +65,10 @@ describe("UPdateDomFromDiff", () => {
     test("If children of one node are modified => they should be updated", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
-        // @ts-ignore
         {
           id: "root",
           children: "New child is a string",
-          type: "setChildren",
+          type: "setText",
         },
       ];
       const dom = new JSDOM(`
@@ -118,6 +117,43 @@ describe("UPdateDomFromDiff", () => {
       // THEN
       expect(dom.window.document.getElementById("child1").textContent).toEqual("child1Text");
       expect(dom.window.document.getElementById("root").children.length).toEqual(1);
+    });
+
+    test("If two children of one node are added => they should be added to the parent", () => {
+      // GIVEN
+      const differences: ModificationToApply[] = [
+        {
+          id: "root",
+          children: [
+            {
+              tag: "div",
+              id: "child1",
+              children: "child1Text",
+            },
+            {
+              tag: "div",
+              id: "child2",
+              children: "child2Text",
+            },
+          ],
+          type: "setChildren",
+        },
+      ];
+      const dom = new JSDOM(`<div id="root">Old text</div>`);
+
+      const expectedDom = new JSDOM(`
+      <div id="root">
+          <div id="child1">child1Text</div>
+          <div id="child2">child2Text</div>
+      </div>`);
+
+      // WHEN
+      updateDomFromDiff(dom.window.document, differences);
+
+      // THEN
+      expect(dom.window.document.getElementById("root").children.length).toEqual(2);
+      expect(dom.window.document.getElementById("child1").textContent).toEqual("child1Text");
+      expect(dom.window.document.getElementById("child2").textContent).toEqual("child2Text");
     });
     //
     // test("If children of one node are modified => they should be updated", () => {

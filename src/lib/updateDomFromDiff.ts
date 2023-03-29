@@ -1,13 +1,13 @@
-import { ModificationToApply } from "./diff";
+import { ModificationToApply, SetChildrenModification } from "./diff";
 import { VirtualDomElement } from "./index";
 
-const updateLeaf = (leafNode: HTMLElement, textContent: string): void => {
-  leafNode.textContent = textContent;
-};
-
-const isLeaf = (children: string | VirtualDomElement[]): children is string => {
-  return typeof children === "string";
-};
+// const updateLeaf = (leafNode: HTMLElement, textContent: string): void => {
+//   leafNode.textContent = textContent;
+// };
+//
+// const isLeaf = (children: string | VirtualDomElement[]): children is string => {
+//   return typeof children === "string";
+// };
 
 const createLeafNode = (document: Document, virtualDomElement: VirtualDomElement): HTMLElement => {
   const childToAdd = document.createElement(virtualDomElement.tag);
@@ -22,18 +22,18 @@ const createLeafNode = (document: Document, virtualDomElement: VirtualDomElement
 const applySetChildrenModification = (
   document: Document,
   parentHtmlElement: HTMLElement,
-  modifToApply: ModificationToApply
+  modifToApply: SetChildrenModification
 ): void => {
-  // STOP CONDITION
-  if (isLeaf(modifToApply.children)) {
-    updateLeaf(parentHtmlElement, modifToApply.children);
-    return;
-  }
+  // // STOP CONDITION
+  // if (isLeaf(modifToApply.children)) {
+  //   updateLeaf(parentHtmlElement, modifToApply.children);
+  //   return;
+  // }
 
-  const firstChild = modifToApply.children[0];
-
-  const childToAdd = createLeafNode(document, firstChild);
-  parentHtmlElement.replaceChildren(childToAdd);
+  const childrenToAdd = modifToApply.children.map((child) => {
+    return createLeafNode(document, child);
+  });
+  parentHtmlElement.replaceChildren(...childrenToAdd);
 };
 
 export const updateDomFromDiff = (document: Document, modificationsToApply: ModificationToApply[]): void => {
