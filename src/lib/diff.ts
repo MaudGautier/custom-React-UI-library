@@ -1,21 +1,29 @@
 import { VirtualDomElement } from "./index";
 
-type ModificationToApply = {
+// TODO: ca c('est faux car cf test Old node has array while new has string -> setChildren avec le nouvel enfant qui est une string (voir si on veut remplacer par setText ??? ou modif code du diff)
+type SetChildrenModification = {
   id: string;
-  children: VirtualDomElement[] | string;
+  children: VirtualDomElement[];
+  type: "setChildren";
+};
+type SetTextModification = {
+  id: string;
+  children: string;
   type: "setText";
 };
+export type ModificationToApply = SetChildrenModification | SetTextModification;
 
 const compareStringChildren = (
-  oldNode: VirtualDomElement,
-  newNode: VirtualDomElement,
+  oldNodeId: string,
+  oldNodeChildren: string,
+  newNodeChildren: string,
   differences: ModificationToApply[]
 ) => {
-  if (oldNode.children !== newNode.children) {
+  if (oldNodeChildren !== newNodeChildren) {
     differences.push({
-      id: oldNode.id,
+      id: oldNodeId,
       type: "setText",
-      children: newNode.children,
+      children: newNodeChildren,
     });
   }
 };
@@ -32,13 +40,17 @@ const compareArrayChildren = (
   const childrenArraySizesDiffer = bothArrays && oldNode.children.length !== newNode.children.length;
 
   if (childrenTypesDiffer || childrenArraySizesDiffer) {
+    // @ts-ignore
     differences.push({
       id: oldNode.id,
-      // @ts-ignore
       type: "setChildren",
       children: newNode.children,
     });
   }
+};
+
+const isChildAString = (child: string | VirtualDomElement[]): child is string => {
+  return typeof child === "string";
 };
 
 const compareNodes = (oldNode: VirtualDomElement, newNode: VirtualDomElement, differences: ModificationToApply[]) => {
@@ -52,8 +64,8 @@ const compareNodes = (oldNode: VirtualDomElement, newNode: VirtualDomElement, di
   // }
 
   // CASE both are string
-  if (typeof oldNode.children === "string" && typeof newNode.children === "string") {
-    compareStringChildren(oldNode, newNode, differences);
+  if (isChildAString(oldNode.children) && isChildAString(newNode.children)) {
+    compareStringChildren(oldNode.id, oldNode.children, newNode.children, differences);
   }
 
   // CASE both are arrays of different length OR one is array, one is string

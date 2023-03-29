@@ -3,6 +3,7 @@ export type VirtualDomElement = {
   children: VirtualDomElement[] | string,
   className?: string;
   onClick?: () => void;
+  id: string;
 }
 
 export function interpret (virtualDomElement: VirtualDomElement): Element {
@@ -70,4 +71,8 @@ export function bootstrapApplication (rootId: string, application: () => Virtual
 
 
 }
+
+
+// TODO
+//  - virer slug (remplacer par counteru???) dans useState)
 
