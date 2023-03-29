@@ -272,7 +272,7 @@ describe("Diff algo between two virtual dom", () => {
       // THEN
       expect(elementsToUpdate).toEqual([
         {
-          type: "setChildren",
+          type: "setText",
           id: "root",
           children: "new children",
         },

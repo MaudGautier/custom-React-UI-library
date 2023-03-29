@@ -1,6 +1,5 @@
 import { VirtualDomElement } from "./index";
 
-// TODO: ca c('est faux car cf test Old node has array while new has string -> setChildren avec le nouvel enfant qui est une string (voir si on veut remplacer par setText ??? ou modif code du diff)
 type SetChildrenModification = {
   id: string;
   children: VirtualDomElement[];
@@ -12,6 +11,13 @@ type SetTextModification = {
   type: "setText";
 };
 export type ModificationToApply = SetChildrenModification | SetTextModification;
+
+const isChildAString = (child: string | VirtualDomElement[]): child is string => {
+  return typeof child === "string";
+};
+const isChildAnArray = (child: string | VirtualDomElement[]): child is VirtualDomElement[] => {
+  return typeof child === "object";
+};
 
 const compareStringChildren = (
   oldNodeId: string,
@@ -33,24 +39,34 @@ const compareArrayChildren = (
   newNode: VirtualDomElement,
   differences: ModificationToApply[]
 ) => {
-  const arrayToString = typeof oldNode.children === "object" && typeof newNode.children === "string";
-  const stringToArray = typeof oldNode.children === "string" && typeof newNode.children === "object";
-  const childrenTypesDiffer = arrayToString || stringToArray;
-  const bothArrays = typeof oldNode.children === "object" && typeof newNode.children === "object";
-  const childrenArraySizesDiffer = bothArrays && oldNode.children.length !== newNode.children.length;
+  if (isChildAnArray(oldNode.children) && isChildAString(newNode.children)) {
+    differences.push({
+      id: oldNode.id,
+      type: "setText",
+      children: newNode.children,
+    });
 
-  if (childrenTypesDiffer || childrenArraySizesDiffer) {
-    // @ts-ignore
+    return;
+  }
+
+  if (isChildAString(oldNode.children) && isChildAnArray(newNode.children)) {
+    differences.push({
+      id: oldNode.id,
+      type: "setChildren",
+      children: newNode.children,
+    });
+    return;
+  }
+
+  const childrenArraySizesDiffer = oldNode.children.length !== newNode.children.length;
+
+  if (isChildAnArray(oldNode.children) && isChildAnArray(newNode.children) && childrenArraySizesDiffer) {
     differences.push({
       id: oldNode.id,
       type: "setChildren",
       children: newNode.children,
     });
   }
-};
-
-const isChildAString = (child: string | VirtualDomElement[]): child is string => {
-  return typeof child === "string";
 };
 
 const compareNodes = (oldNode: VirtualDomElement, newNode: VirtualDomElement, differences: ModificationToApply[]) => {
