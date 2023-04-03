@@ -155,6 +155,59 @@ describe("UPdateDomFromDiff", () => {
       expect(dom.window.document.getElementById("child1").textContent).toEqual("child1Text");
       expect(dom.window.document.getElementById("child2").textContent).toEqual("child2Text");
     });
+
+    test("If two children of one node are added => they should be added to the parent", () => {
+      // GIVEN
+      const differences: ModificationToApply[] = [
+        {
+          id: "root",
+          children: [
+            {
+              tag: "div",
+              id: "child1",
+              children: [
+                {
+                  tag: "div",
+                  id: "child1.1",
+                  children: "child1.1Text",
+                },
+                {
+                  tag: "div",
+                  id: "child1.2",
+                  children: "child1.2Text",
+                },
+              ],
+            },
+            {
+              tag: "div",
+              id: "child2",
+              children: "child2Text",
+            },
+          ],
+          type: "setChildren",
+        },
+      ];
+      const dom = new JSDOM(`<div id="root">Old text</div>`);
+
+      const expectedDom = new JSDOM(`
+      <div id="root">
+          <div id="child1">
+              <div id="child1.1">child1.1Text</div>
+              <div id="child1.2">child1.2Text</div>
+          </div>
+          <div id="child2">child2Text</div>
+      </div>`);
+
+      // WHEN
+      updateDomFromDiff(dom.window.document, differences);
+
+      // THEN
+      expect(dom.window.document.getElementById("root").children.length).toEqual(2);
+      expect(dom.window.document.getElementById("child2").textContent).toEqual("child2Text");
+      expect(dom.window.document.getElementById("child1").children.length).toEqual(2);
+      expect(dom.window.document.getElementById("child1.1").textContent).toEqual("child1.1Text");
+      expect(dom.window.document.getElementById("child1.2").textContent).toEqual("child1.2Text");
+    });
     //
     // test("If children of one node are modified => they should be updated", () => {
     //   // GIVEN

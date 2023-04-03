@@ -1,6 +1,9 @@
 import { VirtualDomElement } from "./index";
 
 const isALeaf = (children: VirtualDomElement[] | string): children is string => typeof children === "string";
+const updateLeaf = (leafNode: HTMLElement, textContent: string): void => {
+  leafNode.textContent = textContent;
+};
 
 const createElement = (document: Document, virtualDomElement: VirtualDomElement) => {
   const element = document.createElement(virtualDomElement.tag);
@@ -8,7 +11,7 @@ const createElement = (document: Document, virtualDomElement: VirtualDomElement)
 
   // STOP CONDITION
   if (isALeaf(virtualDomElement.children)) {
-    element.textContent = virtualDomElement.children;
+    updateLeaf(element, virtualDomElement.children);
 
     return element;
   }
