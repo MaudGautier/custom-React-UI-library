@@ -1,8 +1,8 @@
 import { JSDOM } from "jsdom";
-import { updateDomFromDiff } from "../updateDomFromDiff";
+import { patch } from "../patch";
 import { ModificationToApply } from "../diff";
 
-describe("UPdateDomFromDiff", () => {
+describe("patch", () => {
   describe("CASE setText", () => {
     test("If we have one setText for one child => this child should be updated", () => {
       // GIVEN
@@ -17,7 +17,7 @@ describe("UPdateDomFromDiff", () => {
       // const expectedDom = new JSDOM(`<div id="1">Hello World</div>`);
 
       // WHEN
-      updateDomFromDiff(dom.window.document, differences);
+      patch(dom.window.document, differences);
 
       // THEN
       expect(dom.window.document.getElementById("1").textContent).toEqual("Hello World");
@@ -52,7 +52,7 @@ describe("UPdateDomFromDiff", () => {
       // `);
 
       // WHEN
-      updateDomFromDiff(dom.window.document, differences);
+      patch(dom.window.document, differences);
 
       // THEN
       expect(dom.window.document.getElementById("1").textContent).toEqual("Hello World");
@@ -80,7 +80,7 @@ describe("UPdateDomFromDiff", () => {
       // const expectedDom = new JSDOM(`<div id="root">New child is a string</div>`);
 
       // WHEN
-      updateDomFromDiff(dom.window.document, differences);
+      patch(dom.window.document, differences);
 
       // THEN
       expect(dom.window.document.getElementById("root").textContent).toEqual("New child is a string");
@@ -112,7 +112,7 @@ describe("UPdateDomFromDiff", () => {
       </div>`);
 
       // WHEN
-      updateDomFromDiff(dom.window.document, differences);
+      patch(dom.window.document, differences);
 
       // THEN
       expect(dom.window.document.getElementById("child1").textContent).toEqual("child1Text");
@@ -148,7 +148,7 @@ describe("UPdateDomFromDiff", () => {
       </div>`);
 
       // WHEN
-      updateDomFromDiff(dom.window.document, differences);
+      patch(dom.window.document, differences);
 
       // THEN
       expect(dom.window.document.getElementById("root").children.length).toEqual(2);
@@ -199,7 +199,7 @@ describe("UPdateDomFromDiff", () => {
       </div>`);
 
       // WHEN
-      updateDomFromDiff(dom.window.document, differences);
+      patch(dom.window.document, differences);
 
       // THEN
       expect(dom.window.document.getElementById("root").children.length).toEqual(2);

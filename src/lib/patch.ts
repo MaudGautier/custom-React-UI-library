@@ -1,7 +1,7 @@
 import { createSubTree } from "./createSubtree";
 import { ModificationToApply } from "./diff";
 
-export const updateDomFromDiff = (document: Document, modificationsToApply: ModificationToApply[]): void => {
+export const patch = (document: Document, modificationsToApply: ModificationToApply[]): void => {
   modificationsToApply.forEach((modifToApply) => {
     const elementToUpdate = document.getElementById(modifToApply.id);
 
