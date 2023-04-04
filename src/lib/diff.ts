@@ -1,12 +1,14 @@
 import { VirtualDomElement } from "./index";
 
+type Path = [0, ...number[]];
+
 export type SetChildrenModification = {
-  id: string;
+  path: Path;
   children: VirtualDomElement[];
   type: "setChildren";
 };
 export type SetTextModification = {
-  id: string;
+  path: Path;
   children: string;
   type: "setText";
 };
@@ -28,7 +30,6 @@ const compareStringChildren = (
 ) => {
   if (oldNodeChildren !== newNodeChildren) {
     differences.push({
-      // @ts-ignore
       path: currentPath,
       // id: oldNodeId,
       type: "setText",
@@ -45,8 +46,7 @@ const compareArrayChildren = (
 ) => {
   if (isChildAnArray(oldNode.children) && isChildAString(newNode.children)) {
     differences.push({
-      // id: oldNode.id,
-      // @ts-ignore
+      // id: oldNodeId,
       path: currentPath,
       type: "setText",
       children: newNode.children,
@@ -57,10 +57,8 @@ const compareArrayChildren = (
 
   if (isChildAString(oldNode.children) && isChildAnArray(newNode.children)) {
     differences.push({
-      // @ts-ignore
       path: currentPath,
       // id: oldNode.id,
-      // path: [0, 1, 1],
       type: "setChildren",
       children: newNode.children,
     });
@@ -71,7 +69,6 @@ const compareArrayChildren = (
 
   if (isChildAnArray(oldNode.children) && isChildAnArray(newNode.children) && childrenArraySizesDiffer) {
     differences.push({
-      // @ts-ignore
       path: currentPath,
       // id: oldNode.id,
       type: "setChildren",
@@ -103,8 +100,6 @@ const compareNodes = (
   // CASE both are arrays of different length OR one is array, one is string
   compareArrayChildren(oldNode, newNode, differences, currentPath);
 };
-
-type Path = [0, ...number[]];
 
 export const compareTrees = (
   oldNode: VirtualDomElement,
