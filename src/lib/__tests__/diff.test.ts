@@ -42,7 +42,8 @@ describe("Diff algo between two virtual dom", () => {
       // THEN
       expect(elementsToUpdate).toEqual([
         {
-          id: "1",
+          // id: "1",
+          path: [0],
           children: "element2",
           type: "setText",
         },
@@ -82,7 +83,8 @@ describe("Diff algo between two virtual dom", () => {
       // THEN
       expect(elementsToUpdate).toEqual([
         {
-          id: "child1",
+          // id: "child1",
+          path: [0, 0],
           type: "setText",
           children: "newText",
         },
@@ -131,7 +133,8 @@ describe("Diff algo between two virtual dom", () => {
       expect(elementsToUpdate).toEqual([
         {
           type: "setText",
-          id: "child2",
+          path: [0, 1],
+          // id: "child2",
           children: "child2newText",
         },
       ]);
@@ -174,7 +177,8 @@ describe("Diff algo between two virtual dom", () => {
       expect(elementsToUpdate).toEqual([
         {
           type: "setChildren",
-          id: "root",
+          path: [0],
+          // id: "root",
           children: [
             {
               tag: "div",
@@ -228,7 +232,8 @@ describe("Diff algo between two virtual dom", () => {
       expect(elementsToUpdate).toEqual([
         {
           type: "setChildren",
-          id: "root",
+          // id: "root",
+          path: [0],
           children: [
             {
               tag: "div",
@@ -273,7 +278,8 @@ describe("Diff algo between two virtual dom", () => {
       expect(elementsToUpdate).toEqual([
         {
           type: "setText",
-          id: "root",
+          // id: "root",
+          path: [0],
           children: "new children",
         },
       ]);
@@ -310,7 +316,8 @@ describe("Diff algo between two virtual dom", () => {
       expect(elementsToUpdate).toEqual([
         {
           type: "setChildren",
-          id: "root",
+          // id: "root",
+          path: [0],
           children: [
             {
               tag: "div",
@@ -520,18 +527,21 @@ describe("Diff algo between two virtual dom", () => {
       expect(elementsToUpdate).toEqual([
         {
           type: "setText",
-          id: "1.1",
+          // id: "1.1",
+          path: [0, 0, 0],
           children: "1.1.1-MODIFIED",
         },
 
         {
           type: "setText",
-          id: "3.1.2",
+          // id: "3.1.2",
+          path: [0, 2, 0, 1],
           children: "3.1.2.1-MODIFIED",
         },
         {
           type: "setChildren",
-          id: "3.2",
+          // id: "3.2",
+          path: [0, 2, 1],
           children: [
             {
               tag: "div",

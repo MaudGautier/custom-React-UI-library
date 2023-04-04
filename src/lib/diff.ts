@@ -23,11 +23,14 @@ const compareStringChildren = (
   oldNodeId: string,
   oldNodeChildren: string,
   newNodeChildren: string,
-  differences: ModificationToApply[]
+  differences: ModificationToApply[],
+  currentPath: Path
 ) => {
   if (oldNodeChildren !== newNodeChildren) {
     differences.push({
-      id: oldNodeId,
+      // @ts-ignore
+      path: currentPath,
+      // id: oldNodeId,
       type: "setText",
       children: newNodeChildren,
     });
@@ -37,11 +40,14 @@ const compareStringChildren = (
 const compareArrayChildren = (
   oldNode: VirtualDomElement,
   newNode: VirtualDomElement,
-  differences: ModificationToApply[]
+  differences: ModificationToApply[],
+  currentPath: Path
 ) => {
   if (isChildAnArray(oldNode.children) && isChildAString(newNode.children)) {
     differences.push({
-      id: oldNode.id,
+      // id: oldNode.id,
+      // @ts-ignore
+      path: currentPath,
       type: "setText",
       children: newNode.children,
     });
@@ -51,7 +57,10 @@ const compareArrayChildren = (
 
   if (isChildAString(oldNode.children) && isChildAnArray(newNode.children)) {
     differences.push({
-      id: oldNode.id,
+      // @ts-ignore
+      path: currentPath,
+      // id: oldNode.id,
+      // path: [0, 1, 1],
       type: "setChildren",
       children: newNode.children,
     });
@@ -62,14 +71,21 @@ const compareArrayChildren = (
 
   if (isChildAnArray(oldNode.children) && isChildAnArray(newNode.children) && childrenArraySizesDiffer) {
     differences.push({
-      id: oldNode.id,
+      // @ts-ignore
+      path: currentPath,
+      // id: oldNode.id,
       type: "setChildren",
       children: newNode.children,
     });
   }
 };
 
-const compareNodes = (oldNode: VirtualDomElement, newNode: VirtualDomElement, differences: ModificationToApply[]) => {
+const compareNodes = (
+  oldNode: VirtualDomElement,
+  newNode: VirtualDomElement,
+  differences: ModificationToApply[],
+  currentPath: Path
+) => {
   // // TODO/ this not tested - voir si on veut comparer les ID, et si oui que mettre ?
   // if (oldNode.id != newNode.id) {
   //   differences.push({
@@ -81,19 +97,22 @@ const compareNodes = (oldNode: VirtualDomElement, newNode: VirtualDomElement, di
 
   // CASE both are string
   if (isChildAString(oldNode.children) && isChildAString(newNode.children)) {
-    compareStringChildren(oldNode.id, oldNode.children, newNode.children, differences);
+    compareStringChildren(oldNode.id, oldNode.children, newNode.children, differences, currentPath);
   }
 
   // CASE both are arrays of different length OR one is array, one is string
-  compareArrayChildren(oldNode, newNode, differences);
+  compareArrayChildren(oldNode, newNode, differences, currentPath);
 };
+
+type Path = [0, ...number[]];
 
 export const compareTrees = (
   oldNode: VirtualDomElement,
   newNode: VirtualDomElement,
-  differences: ModificationToApply[]
+  differences: ModificationToApply[],
+  currentPath: Path
 ): ModificationToApply[] => {
-  compareNodes(oldNode, newNode, differences);
+  compareNodes(oldNode, newNode, differences, currentPath);
   const oldNodeChildren = oldNode.children;
   const newNodeChildren = newNode.children;
 
@@ -109,7 +128,7 @@ export const compareTrees = (
 
   // Compare all children nodes one to one
   for (let i = 0; i < newNodeChildren.length; i++) {
-    compareTrees(oldNodeChildren[i], newNodeChildren[i], differences);
+    compareTrees(oldNodeChildren[i], newNodeChildren[i], differences, [...currentPath, i]);
   }
 
   return differences;
@@ -118,5 +137,5 @@ export const compareTrees = (
 export const diff = (oldNode: VirtualDomElement, newNode: VirtualDomElement): ModificationToApply[] => {
   let differences: ModificationToApply[] = [];
 
-  return compareTrees(oldNode, newNode, differences);
+  return compareTrees(oldNode, newNode, differences, [0]);
 };
