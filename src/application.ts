@@ -4,11 +4,8 @@ type ListElementProps = {
   elementText: string;
 };
 
-// let LIST_ELEMENT_COUNTER = 0
-
-function ListElement({ elementText, id }: ListElementProps): VirtualDomElement {
+function ListElement({ elementText }: ListElementProps): VirtualDomElement {
   return {
-    id,
     tag: "div",
     children: elementText,
     className: "item",
@@ -17,9 +14,8 @@ function ListElement({ elementText, id }: ListElementProps): VirtualDomElement {
 
 function List({ children = [] }): VirtualDomElement {
   return {
-    id: "list",
     tag: "div",
-    children: children.map((child) => ListElement({ elementText: child, id:  })),
+    children: children.map((child) => ListElement({ elementText: child })),
   };
 }
 
@@ -39,26 +35,17 @@ function Div({ children }): VirtualDomElement {
 }
 
 function Application() {
-  const [getTodoList, updateTodoList] = useState<string[]>([], "todoList1");
-  const [getTodoList2, updateTodoList2] = useState<string[]>([], "todoList2");
+  const [getTodoList, updateTodoList] = useState<string[]>(["aa"], "todoList1");
   const onClick = () => {
     updateTodoList([...getTodoList(), "NEW ELEMENT"]);
   };
-  const onClick2 = () => {
-    updateTodoList2([...getTodoList2(), "NEW ELEMENT 2"]);
-  };
 
   const lst = List({ children: getTodoList() });
-  const lst2 = List({ children: getTodoList2() });
   const button = Button({ onClick });
-  const button2 = Button({ onClick: onClick2 });
-  const application = Div({ children: [lst, button, lst2, button2] });
+  const application = Div({ children: [lst, button] });
 
   return application;
 }
 
 bootstrapApplication("root", Application);
 // renderDom()
-
-
-

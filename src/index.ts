@@ -1,24 +1,20 @@
-function addElementToList (textElement, parentId) {
-  const parent = document.getElementById(parentId)
+function addElementToList(textElement, parentId) {
+  const parent = document.getElementById(parentId);
 
-  const element = ListElement(textElement)
+  const element = ListElement(textElement);
 
-  parent.append(element)
+  parent.append(element);
 }
 
+function ListElement(text) {
+  const element = document.createElement("li");
+  element.textContent = text;
 
-
-function ListElement (text) {
-  const element = document.createElement("li")
-  element.textContent = text
-
-  return element
+  return element;
 }
 
+function handleAddInput(elementId, parentId) {
+  const value = document.getElementById(elementId).value;
 
-function handleAddInput (elementId, parentId) {
-  const value = document.getElementById(elementId).value
-
-  addElementToList(value, parentId)
-
+  addElementToList(value, parentId);
 }
