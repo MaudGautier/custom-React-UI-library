@@ -5,9 +5,15 @@ const updateLeaf = (leafNode: HTMLElement, textContent: string): void => {
   leafNode.textContent = textContent;
 };
 
-const createElement = (document: Document, virtualDomElement: VirtualDomElement) => {
+const createElement = (
+  document: Document,
+  virtualDomElement: VirtualDomElement,
+  currentElementIndex: number,
+  parentId: string
+) => {
   const element = document.createElement(virtualDomElement.tag);
-  element.id = virtualDomElement.id;
+  const currentElementId = parentId + "." + currentElementIndex;
+  element.id = currentElementId;
 
   // STOP CONDITION
   if (isALeaf(virtualDomElement.children)) {
@@ -17,14 +23,16 @@ const createElement = (document: Document, virtualDomElement: VirtualDomElement)
   }
 
   const grandChildren = virtualDomElement.children;
-  const grandChildrenElements = grandChildren.map((grandChild) => createElement(document, grandChild));
+  const grandChildrenElements = grandChildren.map((grandChild, grandChildIndex) =>
+    createElement(document, grandChild, grandChildIndex, currentElementId)
+  );
   element.replaceChildren(...grandChildrenElements);
 
   return element;
 };
 
 export const createSubTree = (document: Document, children: VirtualDomElement[], rootId) => {
-  const childElements = children.map((child) => createElement(document, child));
+  const childElements = children.map((child, index) => createElement(document, child, index, rootId));
 
   const rootElement = document.getElementById(rootId);
   rootElement.replaceChildren(...childElements);

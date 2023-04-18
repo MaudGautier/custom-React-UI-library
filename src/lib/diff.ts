@@ -1,6 +1,6 @@
 import { VirtualDomElement } from "./index";
 
-type Path = [0, ...number[]];
+export type Path = [0, ...number[]];
 
 export type SetChildrenModification = {
   path: Path;
@@ -22,7 +22,7 @@ const isChildAnArray = (child: string | VirtualDomElement[]): child is VirtualDo
 };
 
 const compareStringChildren = (
-  oldNodeId: string,
+  // oldNodeId: string,
   oldNodeChildren: string,
   newNodeChildren: string,
   differences: ModificationToApply[],
@@ -94,7 +94,7 @@ const compareNodes = (
 
   // CASE both are string
   if (isChildAString(oldNode.children) && isChildAString(newNode.children)) {
-    compareStringChildren(oldNode.id, oldNode.children, newNode.children, differences, currentPath);
+    compareStringChildren(oldNode.children, newNode.children, differences, currentPath);
   }
 
   // CASE both are arrays of different length OR one is array, one is string

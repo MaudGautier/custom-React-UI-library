@@ -8,12 +8,12 @@ describe("Diff algo between two virtual dom", () => {
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
         children: "element",
-        id: "1",
+        // id: "1",
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
         children: "element",
-        id: "1",
+        // id: "1",
       };
 
       // WHEN
@@ -28,12 +28,12 @@ describe("Diff algo between two virtual dom", () => {
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
         children: "element1",
-        id: "1",
+        // id: "1",
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
         children: "element2",
-        id: "1",
+        // id: "1",
       };
 
       // WHEN
@@ -56,22 +56,22 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: [
           {
             tag: "div",
-            id: "child1",
+            // id: "child1",
             children: "oldText",
           },
         ],
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: [
           {
             tag: "div",
-            id: "child1",
+            // id: "child1",
             children: "newText",
           },
         ],
@@ -95,32 +95,32 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: [
           {
             tag: "div",
-            id: "child1",
+            // id: "child1",
             children: "child1Text",
           },
           {
             tag: "div",
-            id: "child2",
+            // id: "child2",
             children: "child2oldText",
           },
         ],
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: [
           {
             tag: "div",
-            id: "child1",
+            // id: "child1",
             children: "child1Text",
           },
           {
             tag: "div",
-            id: "child2",
+            // id: "child2",
             children: "child2newText",
           },
         ],
@@ -144,27 +144,27 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: [
           {
             tag: "div",
-            id: "child1",
+            // id: "child1",
             children: "child1Text",
           },
         ],
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: [
           {
             tag: "div",
-            id: "child1",
+            // id: "child1",
             children: "child1Text",
           },
           {
             tag: "div",
-            id: "child2",
+            // id: "child2",
             children: "child2newText",
           },
         ],
@@ -182,12 +182,12 @@ describe("Diff algo between two virtual dom", () => {
           children: [
             {
               tag: "div",
-              id: "child1",
+              // id: "child1",
               children: "child1Text",
             },
             {
               tag: "div",
-              id: "child2",
+              // id: "child2",
               children: "child2newText",
             },
           ],
@@ -199,27 +199,27 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: [
           {
             tag: "div",
-            id: "child1",
+            // id: "child1",
             children: "child1Text",
           },
           {
             tag: "div",
-            id: "child2",
+            // id: "child2",
             children: "child2oldText",
           },
         ],
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: [
           {
             tag: "div",
-            id: "child1",
+            // id: "child1",
             children: "child1Text",
           },
         ],
@@ -237,7 +237,7 @@ describe("Diff algo between two virtual dom", () => {
           children: [
             {
               tag: "div",
-              id: "child1",
+              // id: "child1",
               children: "child1Text",
             },
           ],
@@ -251,23 +251,23 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: [
           {
             tag: "div",
-            id: "child1",
+            // id: "child1",
             children: "child1Text",
           },
           {
             tag: "div",
-            id: "child2",
+            // id: "child2",
             children: "child2oldText",
           },
         ],
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: "new children",
       };
 
@@ -289,21 +289,21 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: "new children",
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: [
           {
             tag: "div",
-            id: "child1",
+            // id: "child1",
             children: "child1Text",
           },
           {
             tag: "div",
-            id: "child2",
+            // id: "child2",
             children: "child2oldText",
           },
         ],
@@ -321,12 +321,12 @@ describe("Diff algo between two virtual dom", () => {
           children: [
             {
               tag: "div",
-              id: "child1",
+              // id: "child1",
               children: "child1Text",
             },
             {
               tag: "div",
-              id: "child2",
+              // id: "child2",
               children: "child2oldText",
             },
           ],
@@ -340,39 +340,39 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: [
           {
             tag: "div",
-            id: "1",
+            // id: "1",
             children: [
               {
                 tag: "div",
-                id: "1.1",
+                // id: "1.1",
                 children: "1.1.1",
               },
             ],
           },
           {
             tag: "div",
-            id: "2",
+            // id: "2",
             children: [
               {
                 tag: "div",
-                id: "2.1",
+                // id: "2.1",
                 children: [
                   {
                     tag: "div",
-                    id: "2.1.1",
+                    // id: "2.1.1",
                     children: [
                       {
                         tag: "div",
-                        id: "2.1.1.1",
+                        // id: "2.1.1.1",
                         children: "2.1.1.1.1",
                       },
                       {
                         tag: "div",
-                        id: "2.1.1.2",
+                        // id: "2.1.1.2",
                         children: "2.1.1.2.1",
                       },
                     ],
@@ -383,46 +383,46 @@ describe("Diff algo between two virtual dom", () => {
           },
           {
             tag: "div",
-            id: "3",
+            // id: "3",
             children: [
               {
                 tag: "div",
-                id: "3.1",
+                // id: "3.1",
                 children: [
                   {
                     tag: "div",
-                    id: "3.1.1",
+                    // id: "3.1.1",
                     children: "3.1.1.1",
                   },
                   {
                     tag: "div",
-                    id: "3.1.2",
+                    // id: "3.1.2",
                     children: "3.1.2.1",
                   },
                   {
                     tag: "div",
-                    id: "3.1.3",
+                    // id: "3.1.3",
                     children: "3.1.3.1",
                   },
                 ],
               },
               {
                 tag: "div",
-                id: "3.2",
+                // id: "3.2",
                 children: [
                   {
                     tag: "div",
-                    id: "3.2.1",
+                    // id: "3.2.1",
                     children: "3.2.1.1",
                   },
                   {
                     tag: "div",
-                    id: "3.2.2",
+                    // id: "3.2.2",
                     children: "3.2.2.1",
                   },
                   {
                     tag: "div",
-                    id: "3.2.3",
+                    // id: "3.2.3",
                     children: "3.2.3.1",
                   },
                 ],
@@ -433,39 +433,39 @@ describe("Diff algo between two virtual dom", () => {
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        id: "root",
+        // id: "root",
         children: [
           {
             tag: "div",
-            id: "1",
+            // id: "1",
             children: [
               {
                 tag: "div",
-                id: "1.1",
+                // id: "1.1",
                 children: "1.1.1-MODIFIED",
               },
             ],
           },
           {
             tag: "div",
-            id: "2",
+            // id: "2",
             children: [
               {
                 tag: "div",
-                id: "2.1",
+                // id: "2.1",
                 children: [
                   {
                     tag: "div",
-                    id: "2.1.1",
+                    // id: "2.1.1",
                     children: [
                       {
                         tag: "div",
-                        id: "2.1.1.1",
+                        // id: "2.1.1.1",
                         children: "2.1.1.1.1",
                       },
                       {
                         tag: "div",
-                        id: "2.1.1.2",
+                        // id: "2.1.1.2",
                         children: "2.1.1.2.1",
                       },
                     ],
@@ -476,41 +476,41 @@ describe("Diff algo between two virtual dom", () => {
           },
           {
             tag: "div",
-            id: "3",
+            // id: "3",
             children: [
               {
                 tag: "div",
-                id: "3.1",
+                // id: "3.1",
                 children: [
                   {
                     tag: "div",
-                    id: "3.1.1",
+                    // id: "3.1.1",
                     children: "3.1.1.1",
                   },
                   {
                     tag: "div",
-                    id: "3.1.2",
+                    // id: "3.1.2",
                     children: "3.1.2.1-MODIFIED",
                   },
                   {
                     tag: "div",
-                    id: "3.1.3",
+                    // id: "3.1.3",
                     children: "3.1.3.1",
                   },
                 ],
               },
               {
                 tag: "div",
-                id: "3.2",
+                // id: "3.2",
                 children: [
                   {
                     tag: "div",
-                    id: "3.2.2",
+                    // id: "3.2.2",
                     children: "3.2.2.1",
                   },
                   {
                     tag: "div",
-                    id: "3.2.3",
+                    // id: "3.2.3",
                     children: "3.2.3.1",
                   },
                 ],
@@ -545,12 +545,12 @@ describe("Diff algo between two virtual dom", () => {
           children: [
             {
               tag: "div",
-              id: "3.2.2",
+              // id: "3.2.2",
               children: "3.2.2.1",
             },
             {
               tag: "div",
-              id: "3.2.3",
+              // id: "3.2.3",
               children: "3.2.3.1",
             },
           ],
