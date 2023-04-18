@@ -34,18 +34,39 @@ function Div({ children }): VirtualDomElement {
   };
 }
 
-function Application() {
-  const [getTodoList, updateTodoList] = useState<string[]>(["aa"], "todoList1");
+function Child1(): VirtualDomElement {
+  return {
+    tag: "div",
+    children: [
+      {
+        tag: "div",
+        children: "text1.1",
+      },
+      {
+        tag: "div",
+        children: "text1.2",
+      },
+    ],
+  };
+}
+
+function Child2(): VirtualDomElement {
+  const [getTodoList, updateTodoList] = useState<string[]>(["child2.1"], "todoList2");
   const onClick = () => {
     updateTodoList([...getTodoList(), "NEW ELEMENT"]);
   };
-
-  const lst = List({ children: getTodoList() });
   const button = Button({ onClick });
-  const application = Div({ children: [lst, button] });
+  const listChild2 = List({ children: getTodoList() });
+
+  return Div({ children: [listChild2, button] });
+}
+
+function Application() {
+  const child1 = Child1();
+  const child2 = Child2();
+  const application = Div({ children: [child1, child2] });
 
   return application;
 }
 
 bootstrapApplication("root", Application);
-// renderDom()
