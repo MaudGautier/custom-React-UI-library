@@ -4,7 +4,7 @@ import { ModificationToApply } from "../diff";
 
 describe("patch", () => {
   describe("CASE setText", () => {
-    test.only("If we have one setText for one child => this child should be updated", () => {
+    test("If we have one setText for one child => this child should be updated", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
@@ -24,7 +24,7 @@ describe("patch", () => {
       expect(dom.window.document.getElementById("0").textContent).toEqual("Hello World");
     });
 
-    test.only("If we have two setText for two parts of the dom => both parts should be updated", () => {
+    test("If we have two setText for two parts of the dom => both parts should be updated", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
@@ -65,7 +65,7 @@ describe("patch", () => {
   });
 
   describe("CASE setChildren", () => {
-    test.only("If children of one node are modified => they should be updated", () => {
+    test("If children of one node are modified => they should be updated", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
@@ -93,7 +93,7 @@ describe("patch", () => {
       expect(dom.window.document.getElementById("0.2")).toEqual(null);
     });
 
-    test.only("If children of one node is added => it should be added to the parent", () => {
+    test("If children of one node is added => it should be added to the parent", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
@@ -130,7 +130,7 @@ describe("patch", () => {
       const differences: ModificationToApply[] = [
         {
           // id: "root",
-          path: [0, 100000], // TODO: modifier
+          path: [0],
 
           children: [
             {
@@ -147,29 +147,29 @@ describe("patch", () => {
           type: "setChildren",
         },
       ];
-      const dom = new JSDOM(`<div id="root">Old text</div>`);
+      const dom = new JSDOM(`<div id="0">Old text</div>`);
 
       const expectedDom = new JSDOM(`
-      <div id="root">
-          <div id="child1">child1Text</div>
-          <div id="child2">child2Text</div>
+      <div id="0">
+          <div id="0.0">child1Text</div>
+          <div id="0.1">child2Text</div>
       </div>`);
 
       // WHEN
       patch(dom.window.document, differences);
 
       // THEN
-      expect(dom.window.document.getElementById("root").children.length).toEqual(2);
-      expect(dom.window.document.getElementById("child1").textContent).toEqual("child1Text");
-      expect(dom.window.document.getElementById("child2").textContent).toEqual("child2Text");
+      expect(dom.window.document.getElementById("0").children.length).toEqual(2);
+      expect(dom.window.document.getElementById("0.0").textContent).toEqual("child1Text");
+      expect(dom.window.document.getElementById("0.1").textContent).toEqual("child2Text");
     });
 
-    test("If two children of one node are added => they should be added to the parent", () => {
+    test("If two children of one node are added => they should be added to the parent BIS", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
           // id: "root",
-          path: [0, 100000], // TODO: modifier
+          path: [0],
 
           children: [
             {
@@ -197,63 +197,72 @@ describe("patch", () => {
           type: "setChildren",
         },
       ];
-      const dom = new JSDOM(`<div id="root">Old text</div>`);
+      const dom = new JSDOM(`<div id="0">Old text</div>`);
 
       const expectedDom = new JSDOM(`
-      <div id="root">
-          <div id="child1">
-              <div id="child1.1">child1.1Text</div>
-              <div id="child1.2">child1.2Text</div>
+      <div id="0">
+          <div id="0.0">
+              <div id="0.0.0">child1.1Text</div>
+              <div id="0.0.1">child1.2Text</div>
           </div>
-          <div id="child2">child2Text</div>
+          <div id="0.1">child2Text</div>
       </div>`);
 
       // WHEN
       patch(dom.window.document, differences);
 
       // THEN
-      expect(dom.window.document.getElementById("root").children.length).toEqual(2);
-      expect(dom.window.document.getElementById("child2").textContent).toEqual("child2Text");
-      expect(dom.window.document.getElementById("child1").children.length).toEqual(2);
-      expect(dom.window.document.getElementById("child1.1").textContent).toEqual("child1.1Text");
-      expect(dom.window.document.getElementById("child1.2").textContent).toEqual("child1.2Text");
+      expect(dom.window.document.getElementById("0").children.length).toEqual(2);
+      expect(dom.window.document.getElementById("0.1").textContent).toEqual("child2Text");
+      expect(dom.window.document.getElementById("0.0").children.length).toEqual(2);
+      expect(dom.window.document.getElementById("0.0.0").textContent).toEqual("child1.1Text");
+      expect(dom.window.document.getElementById("0.0.1").textContent).toEqual("child1.2Text");
     });
-    //
-    // test("If children of one node are modified => they should be updated", () => {
-    //   // GIVEN
-    //   const differences: ModificationToApply[] = [
-    //     {
-    //       id: "root",
-    //       children: [
-    //         {
-    //           tag: "div",
-    //           id: "child1",
-    //           children: "child1Text",
-    //         },
-    //         {
-    //           tag: "div",
-    //           id: "child2",
-    //           children: "child2Text",
-    //         },
-    //       ],
-    //       type: "setChildren",
-    //     },
-    //   ];
-    //   const dom = new JSDOM(`<div id="root">Old text</div>`);
-    //   //       const expectedDom = new JSDOM(`
-    //   // <div id="root">
-    //   //     <div id="child1">child1Text</div>
-    //   //     <div id="child2">child2Text</div>
-    //   // </div>`);
-    //
-    //   // WHEN
-    //   updateDomFromDiff(dom.window.document, differences);
-    //
-    //   // THEN
-    //   expect(dom.window.document.getElementById("root").textContent).toEqual(null);
-    //   expect(dom.window.document.getElementById("root").length).toEqual(2);
-    //   expect(dom.window.document.getElementById("child1")).toEqual("child1Text");
-    //   expect(dom.window.document.getElementById("child2")).toEqual("child2Text");
-    // });
   });
+
+  // describe("CASE setOnClick", () => {
+  //   test.only("change onclick property", () => {
+  //     // GIVEN
+  //     const differences: ModificationToApply[] = [
+  //       {
+  //         path: [0],
+  //         type: "setOnClick",
+  //         onClick: () => {
+  //           console.log("new onClick");
+  //         },
+  //       },
+  //     ];
+  //     const dom = new JSDOM(`<button id="0" onclick={() => {console.log("anything")}}>Click on button</button>`);
+  //     const expectedDom = new JSDOM(
+  //       `<button id="0" onclick={() => {console.log("new onClick")}}>Click on button</button>`
+  //     );
+  //
+  //     // WHEN
+  //     // patch(dom.window.document, differences);
+  //
+  //     const TESTdom = new JSDOM(`<button id="0" onclick={() => {console.log("blabla")}}>Click on button</button>`);
+  //
+  //     console.log("testing");
+  //     const elem = TESTdom.window.document.getElementById("0");
+  //     userEvent.click(elem);
+  //     // TESTdom.window.document.getElementById("0").click();
+  //
+  //     // THEN
+  //     // expect(dom.window.document.getElementById("0").onclick).toEqual(() => {
+  //     //   console.log("new onClick");
+  //     // });
+  //   });
+  // });
+
+  // test.only("click", () => {
+  //   render(
+  //     <div>
+  //       <label htmlFor="checkbox">Check</label>
+  //       <input id="checkbox" type="checkbox" />
+  //     </div>
+  //   );
+  //
+  //   userEvent.click(screen.getByText("Check"));
+  //   expect(screen.getByLabelText("Check")).toBeChecked();
+  // });
 });

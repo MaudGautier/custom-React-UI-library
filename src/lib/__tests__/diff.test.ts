@@ -558,4 +558,89 @@ describe("Diff algo between two virtual dom", () => {
       ]);
     });
   });
+
+  // TODO !! does not work at this stage
+  describe("Deal with event listener", () => {
+    test("Should add event listener if present", () => {
+      // GIVEN
+      const oldVirtualDomElement: VirtualDomElement = {
+        tag: "div",
+        children: "element without button",
+      };
+      const newVirtualDomElement: VirtualDomElement = {
+        tag: "div",
+        children: [
+          {
+            tag: "button",
+            children: "Click on button",
+            onClick: () => {},
+          },
+        ],
+      };
+
+      // WHEN
+      const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
+
+      // THEN
+      expect(JSON.stringify(elementsToUpdate)).toEqual(
+        JSON.stringify([
+          {
+            path: [0],
+            type: "setChildren",
+            children: [
+              {
+                tag: "button",
+                children: "Click on button",
+                onClick: () => {},
+              },
+            ],
+          },
+        ])
+      );
+    });
+
+    test("Should add event listener if present", () => {
+      // GIVEN
+      const oldVirtualDomElement: VirtualDomElement = {
+        tag: "div",
+        children: [
+          {
+            tag: "button",
+            children: "Click on button",
+            onClick: () => {
+              console.log("Previous button");
+            },
+          },
+        ],
+      };
+      const newVirtualDomElement: VirtualDomElement = {
+        tag: "div",
+        children: [
+          {
+            tag: "button",
+            children: "Click on button",
+            onClick: () => {
+              console.log("New button");
+            },
+          },
+        ],
+      };
+
+      // WHEN
+      const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
+
+      // THEN
+      expect(JSON.stringify(elementsToUpdate)).toEqual(
+        JSON.stringify([
+          {
+            path: [0, 0],
+            type: "setOnClick",
+            onClick: () => {
+              console.log("New button");
+            },
+          },
+        ])
+      );
+    });
+  });
 });

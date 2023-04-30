@@ -1,3 +1,6 @@
+import { diff } from "./diff";
+import { patch } from "./patch";
+
 export type VirtualDomElement = {
   tag: "div" | "button";
   children: VirtualDomElement[] | string;
@@ -44,16 +47,26 @@ export function useState<State>(initialValue, slug): [getState: () => State, upd
 
 let render = undefined;
 
-let LIBRARY_STATE = {};
+let PREVIOUS_VIRTUAL_DOM = {
+  tag: "div" as const,
+  children: "root",
+};
 
 export function bootstrapApplication(rootId: string, application: () => VirtualDomElement): void {
   function renderDom() {
+    console.log("IN RENDER");
     const root = document.getElementById(rootId);
-    // console.log("LIBRARY_STATE", LIBRARY_STATE)
-    // root.replaceChildren(interpret(application))
 
-    root.replaceChildren(interpret(application()));
-    // renderDom()
+    let NEW_VIRTUAL_DOM = application();
+
+    const modifications = diff(PREVIOUS_VIRTUAL_DOM, NEW_VIRTUAL_DOM);
+    console.log("modifications", modifications);
+    patch(document, modifications);
+
+    // @ts-ignore
+    PREVIOUS_VIRTUAL_DOM = NEW_VIRTUAL_DOM;
+
+    // root.replaceChildren(interpret(application()));
   }
 
   render = renderDom;

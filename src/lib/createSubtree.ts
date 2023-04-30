@@ -15,6 +15,11 @@ const createElement = (
   const currentElementId = parentId + "." + currentElementIndex;
   element.id = currentElementId;
 
+  // Add event listener if onclick
+  if (virtualDomElement.onClick) {
+    element.addEventListener("click", virtualDomElement.onClick);
+  }
+
   // STOP CONDITION
   if (isALeaf(virtualDomElement.children)) {
     updateLeaf(element, virtualDomElement.children);

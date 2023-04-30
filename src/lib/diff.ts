@@ -2,6 +2,8 @@ import { VirtualDomElement } from "./index";
 
 export type Path = [0, ...number[]];
 
+type OnClick = () => void;
+
 export type SetChildrenModification = {
   path: Path;
   children: VirtualDomElement[];
@@ -12,7 +14,12 @@ export type SetTextModification = {
   children: string;
   type: "setText";
 };
-export type ModificationToApply = SetChildrenModification | SetTextModification;
+export type SetOnClickModification = {
+  path: Path;
+  onClick: OnClick;
+  type: "setOnClick";
+};
+export type ModificationToApply = SetChildrenModification | SetTextModification | SetOnClickModification;
 
 const isChildAString = (child: string | VirtualDomElement[]): child is string => {
   return typeof child === "string";
@@ -34,6 +41,25 @@ const compareStringChildren = (
       // id: oldNodeId,
       type: "setText",
       children: newNodeChildren,
+    });
+  }
+};
+
+const compareOnClickProps = (
+  // oldNodeId: string,
+  oldNodeOnClickProp: OnClick,
+  newNodeOnClickProp: OnClick,
+  differences: ModificationToApply[],
+  currentPath: Path
+) => {
+  // TODO: references comparées alors que devrait pas
+  if (JSON.stringify(oldNodeOnClickProp) !== JSON.stringify(newNodeOnClickProp)) {
+    differences.push({
+      path: currentPath,
+      // id: oldNodeId,
+      type: "setOnClick",
+      onClick: newNodeOnClickProp,
+      // children: newNodeChildren,
     });
   }
 };
@@ -94,7 +120,9 @@ const compareNodes = (
 
   // CASE both are string
   if (isChildAString(oldNode.children) && isChildAString(newNode.children)) {
+    // TODO: deal with case where both children and onClick change (later)
     compareStringChildren(oldNode.children, newNode.children, differences, currentPath);
+    compareOnClickProps(oldNode.onClick, newNode.onClick, differences, currentPath);
   }
 
   // CASE both are arrays of different length OR one is array, one is string

@@ -69,4 +69,4 @@ function Application() {
   return application;
 }
 
-bootstrapApplication("root", Application);
+bootstrapApplication("0", Application);
