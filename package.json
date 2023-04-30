@@ -1,8 +1,9 @@
 {
-  "name": "typescript-kata-starter",
+  "name": "custom-react-ui-library",
   "version": "1.0.0",
-  "description": "Starter repo for kata exercises with Node, TypeScript & Jest",
-  "main": "src/index.js",
+  "description": "This custom TS library allows to create interactive UI for web applications. It aims at re-implementing the existing \"React\" library so as to understand its underlying principles.",
+  "author": "Maud Gautier",
+  "main": "src/index.ts",
   "scripts": {
     "test": "jest --watch --coverage"
   },
