@@ -54,25 +54,18 @@ let PREVIOUS_VIRTUAL_DOM = {
 
 export function bootstrapApplication(rootId: string, application: () => VirtualDomElement): void {
   function renderDom() {
-    console.log("IN RENDER");
     const root = document.getElementById(rootId);
 
     let NEW_VIRTUAL_DOM = application();
 
     const modifications = diff(PREVIOUS_VIRTUAL_DOM, NEW_VIRTUAL_DOM);
-    console.log("modifications", modifications);
     patch(document, modifications);
 
     // @ts-ignore
     PREVIOUS_VIRTUAL_DOM = NEW_VIRTUAL_DOM;
-
-    // root.replaceChildren(interpret(application()));
   }
 
   render = renderDom;
 
   render();
 }
-
-// TODO
-//  - virer slug (remplacer par counteru???) dans useState)

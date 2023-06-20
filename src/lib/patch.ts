@@ -14,7 +14,6 @@ export const patch = (document: Document, modificationsToApply: ModificationToAp
     }
 
     if (modifToApply.type === "setOnClick") {
-      // elementToUpdate.onclick = modifToApply.onClick;
       elementToUpdate.addEventListener("click", modifToApply.onClick);
     }
 
@@ -22,5 +21,3 @@ export const patch = (document: Document, modificationsToApply: ModificationToAp
     elementToUpdate.textContent = modifToApply.children;
   });
 };
-
-// TODO: ajouter les events (= clic bouton dans patch)

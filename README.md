@@ -58,3 +58,4 @@ The differences between the previous and new virtual doms are identified by trav
 - [ ] Allow JSX
 - [ ] Add an equivalent of `create-react-app` to start the app without writing the htmlSample file
 - [ ] Add other hooks
+- [ ] Manage removing slug from useState hook ?

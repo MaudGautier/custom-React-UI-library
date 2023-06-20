@@ -29,7 +29,6 @@ const isChildAnArray = (child: string | VirtualDomElement[]): child is VirtualDo
 };
 
 const compareStringChildren = (
-  // oldNodeId: string,
   oldNodeChildren: string,
   newNodeChildren: string,
   differences: ModificationToApply[],
@@ -38,7 +37,6 @@ const compareStringChildren = (
   if (oldNodeChildren !== newNodeChildren) {
     differences.push({
       path: currentPath,
-      // id: oldNodeId,
       type: "setText",
       children: newNodeChildren,
     });
@@ -46,7 +44,6 @@ const compareStringChildren = (
 };
 
 const compareOnClickProps = (
-  // oldNodeId: string,
   oldNodeOnClickProp: OnClick,
   newNodeOnClickProp: OnClick,
   differences: ModificationToApply[],
@@ -56,10 +53,8 @@ const compareOnClickProps = (
   if (JSON.stringify(oldNodeOnClickProp) !== JSON.stringify(newNodeOnClickProp)) {
     differences.push({
       path: currentPath,
-      // id: oldNodeId,
       type: "setOnClick",
       onClick: newNodeOnClickProp,
-      // children: newNodeChildren,
     });
   }
 };
@@ -72,7 +67,6 @@ const compareArrayChildren = (
 ) => {
   if (isChildAnArray(oldNode.children) && isChildAString(newNode.children)) {
     differences.push({
-      // id: oldNodeId,
       path: currentPath,
       type: "setText",
       children: newNode.children,
@@ -84,7 +78,6 @@ const compareArrayChildren = (
   if (isChildAString(oldNode.children) && isChildAnArray(newNode.children)) {
     differences.push({
       path: currentPath,
-      // id: oldNode.id,
       type: "setChildren",
       children: newNode.children,
     });
@@ -96,7 +89,6 @@ const compareArrayChildren = (
   if (isChildAnArray(oldNode.children) && isChildAnArray(newNode.children) && childrenArraySizesDiffer) {
     differences.push({
       path: currentPath,
-      // id: oldNode.id,
       type: "setChildren",
       children: newNode.children,
     });
