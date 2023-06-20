@@ -1,8 +1,18 @@
-import { bootstrapApplication, useState, VirtualDomElement } from "./lib";
+import { bootstrapApplication, useState, VirtualDomElement, Text } from "./lib";
 
 type ListElementProps = {
-  elementText: string;
+  elementText: Text;
 };
+type ButtonProps = {
+  onClick: () => void;
+  label?: string;
+}
+type DivProps = {
+  children: VirtualDomElement[] | Text;
+}
+type ListProps = {
+  children: VirtualDomElement[] | Text[];
+}
 
 function ListElement({ elementText }: ListElementProps): VirtualDomElement {
   return {
@@ -12,59 +22,53 @@ function ListElement({ elementText }: ListElementProps): VirtualDomElement {
   };
 }
 
-function List({ children = [] }): VirtualDomElement {
+function List({ children = [] }: ListProps): VirtualDomElement {
   return {
     tag: "div",
     children: children.map((child) => ListElement({ elementText: child })),
   };
 }
 
-function Button({ onClick }): VirtualDomElement {
+function Button({ onClick, label = "Click on button" }: ButtonProps): VirtualDomElement {
   return {
     tag: "button",
-    children: "Click on button",
+    children: label,
     onClick,
   };
 }
 
-function Div({ children }): VirtualDomElement {
+function Div({ children }: DivProps): VirtualDomElement {
   return {
     tag: "div",
     children,
   };
 }
 
-function Child1(): VirtualDomElement {
-  return {
-    tag: "div",
-    children: [
-      {
-        tag: "div",
-        children: "text1.1",
-      },
-      {
-        tag: "div",
-        children: "text1.2",
-      },
-    ],
-  };
+function Description(): VirtualDomElement {
+  return Div({children: "Hereunder is a sample list of incrementing numbers"})
 }
 
-function Child2(): VirtualDomElement {
-  const [getTodoList, updateTodoList] = useState<string[]>(["child2.1"], "todoList2");
-  const onClick = () => {
-    updateTodoList([...getTodoList(), "NEW ELEMENT"]);
-  };
-  const button = Button({ onClick });
-  const listChild2 = List({ children: getTodoList() });
+function addNextNumber(list: number[]): number[] {
+  const lastElement = list[list.length-1]
 
-  return Div({ children: [listChild2, button] });
+  return [...list, lastElement + 1]
+}
+
+function IncrementingList(): VirtualDomElement {
+  const [getIncrementingList, updateIncrementingList] = useState<number[]>([1], "incrementingListSlug");
+  const onClick = () => {
+    updateIncrementingList(addNextNumber(getIncrementingList()));
+  };
+  const button = Button({ onClick, label: "Click to increment list" });
+  const list = List({ children: getIncrementingList() });
+
+  return Div({ children: [list, button] });
 }
 
 function Application() {
-  const child1 = Child1();
-  const child2 = Child2();
-  const application = Div({ children: [child1, child2] });
+  const description = Description();
+  const incrementingList = IncrementingList();
+  const application = Div({ children: [description, incrementingList] });
 
   return application;
 }
