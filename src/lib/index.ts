@@ -1,9 +1,11 @@
-import { diff } from "./diff";
+import { diff, isText } from "./diff";
 import { patch } from "./patch";
+
+export type Text = string | number;
 
 export type VirtualDomElement = {
   tag: "div" | "button";
-  children: VirtualDomElement[] | string;
+  children: VirtualDomElement[] | Text;
   className?: string;
   onClick?: () => void;
   // id: string;

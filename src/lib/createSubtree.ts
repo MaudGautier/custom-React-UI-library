@@ -1,8 +1,9 @@
-import { VirtualDomElement } from "./index";
+import { isText } from "./diff";
+import { VirtualDomElement, Text } from "./index";
 
-const isALeaf = (children: VirtualDomElement[] | string): children is string => typeof children === "string";
-const updateLeaf = (leafNode: HTMLElement, textContent: string): void => {
-  leafNode.textContent = textContent;
+const isALeaf = isText;
+const updateLeaf = (leafNode: HTMLElement, text: Text): void => {
+  leafNode.textContent = text.toString();
 };
 
 const createElement = (

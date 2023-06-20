@@ -15,9 +15,14 @@ export const patch = (document: Document, modificationsToApply: ModificationToAp
 
     if (modifToApply.type === "setOnClick") {
       elementToUpdate.addEventListener("click", modifToApply.onClick);
+
+      return;
     }
 
-    // @ts-ignore
-    elementToUpdate.textContent = modifToApply.children;
+    if (modifToApply.type === "setText") {
+      elementToUpdate.textContent = modifToApply.children.toString();
+
+      return;
+    }
   });
 };

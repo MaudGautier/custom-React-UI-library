@@ -2,18 +2,16 @@ import { diff } from "../diff";
 import { VirtualDomElement } from "../index";
 
 describe("Diff algo between two virtual dom", () => {
-  describe("Children are strings", () => {
+  describe("Children are Text (string)", () => {
     test("Two identical nodes without children are not different", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
         children: "element",
-        // id: "1",
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
         children: "element",
-        // id: "1",
       };
 
       // WHEN
@@ -28,12 +26,10 @@ describe("Diff algo between two virtual dom", () => {
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
         children: "element1",
-        // id: "1",
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
         children: "element2",
-        // id: "1",
       };
 
       // WHEN
@@ -42,9 +38,52 @@ describe("Diff algo between two virtual dom", () => {
       // THEN
       expect(elementsToUpdate).toEqual([
         {
-          // id: "1",
           path: [0],
           children: "element2",
+          type: "setText",
+        },
+      ]);
+    });
+  });
+
+  describe("Children are Text (number)", () => {
+    test("Two identical nodes without children are not different", () => {
+      // GIVEN
+      const oldVirtualDomElement: VirtualDomElement = {
+        tag: "div",
+        children: 1,
+      };
+      const newVirtualDomElement: VirtualDomElement = {
+        tag: "div",
+        children: 1,
+      };
+
+      // WHEN
+      const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
+
+      // THEN
+      expect(elementsToUpdate).toEqual([]);
+    });
+
+    test("Two identical nodes with different children are different", () => {
+      // GIVEN
+      const oldVirtualDomElement: VirtualDomElement = {
+        tag: "div",
+        children: 1,
+      };
+      const newVirtualDomElement: VirtualDomElement = {
+        tag: "div",
+        children: 2,
+      };
+
+      // WHEN
+      const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
+
+      // THEN
+      expect(elementsToUpdate).toEqual([
+        {
+          path: [0],
+          children: 2,
           type: "setText",
         },
       ]);
@@ -56,22 +95,18 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: [
           {
             tag: "div",
-            // id: "child1",
             children: "oldText",
           },
         ],
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: [
           {
             tag: "div",
-            // id: "child1",
             children: "newText",
           },
         ],
@@ -83,7 +118,6 @@ describe("Diff algo between two virtual dom", () => {
       // THEN
       expect(elementsToUpdate).toEqual([
         {
-          // id: "child1",
           path: [0, 0],
           type: "setText",
           children: "newText",
@@ -95,32 +129,26 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: [
           {
             tag: "div",
-            // id: "child1",
             children: "child1Text",
           },
           {
             tag: "div",
-            // id: "child2",
             children: "child2oldText",
           },
         ],
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: [
           {
             tag: "div",
-            // id: "child1",
             children: "child1Text",
           },
           {
             tag: "div",
-            // id: "child2",
             children: "child2newText",
           },
         ],
@@ -134,7 +162,6 @@ describe("Diff algo between two virtual dom", () => {
         {
           type: "setText",
           path: [0, 1],
-          // id: "child2",
           children: "child2newText",
         },
       ]);
@@ -144,27 +171,22 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: [
           {
             tag: "div",
-            // id: "child1",
             children: "child1Text",
           },
         ],
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: [
           {
             tag: "div",
-            // id: "child1",
             children: "child1Text",
           },
           {
             tag: "div",
-            // id: "child2",
             children: "child2newText",
           },
         ],
@@ -178,16 +200,13 @@ describe("Diff algo between two virtual dom", () => {
         {
           type: "setChildren",
           path: [0],
-          // id: "root",
           children: [
             {
               tag: "div",
-              // id: "child1",
               children: "child1Text",
             },
             {
               tag: "div",
-              // id: "child2",
               children: "child2newText",
             },
           ],
@@ -199,27 +218,22 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: [
           {
             tag: "div",
-            // id: "child1",
             children: "child1Text",
           },
           {
             tag: "div",
-            // id: "child2",
             children: "child2oldText",
           },
         ],
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: [
           {
             tag: "div",
-            // id: "child1",
             children: "child1Text",
           },
         ],
@@ -232,12 +246,10 @@ describe("Diff algo between two virtual dom", () => {
       expect(elementsToUpdate).toEqual([
         {
           type: "setChildren",
-          // id: "root",
           path: [0],
           children: [
             {
               tag: "div",
-              // id: "child1",
               children: "child1Text",
             },
           ],
@@ -251,23 +263,19 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: [
           {
             tag: "div",
-            // id: "child1",
             children: "child1Text",
           },
           {
             tag: "div",
-            // id: "child2",
             children: "child2oldText",
           },
         ],
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: "new children",
       };
 
@@ -278,7 +286,6 @@ describe("Diff algo between two virtual dom", () => {
       expect(elementsToUpdate).toEqual([
         {
           type: "setText",
-          // id: "root",
           path: [0],
           children: "new children",
         },
@@ -289,21 +296,17 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: "new children",
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: [
           {
             tag: "div",
-            // id: "child1",
             children: "child1Text",
           },
           {
             tag: "div",
-            // id: "child2",
             children: "child2oldText",
           },
         ],
@@ -316,17 +319,14 @@ describe("Diff algo between two virtual dom", () => {
       expect(elementsToUpdate).toEqual([
         {
           type: "setChildren",
-          // id: "root",
           path: [0],
           children: [
             {
               tag: "div",
-              // id: "child1",
               children: "child1Text",
             },
             {
               tag: "div",
-              // id: "child2",
               children: "child2oldText",
             },
           ],
@@ -340,39 +340,31 @@ describe("Diff algo between two virtual dom", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: [
           {
             tag: "div",
-            // id: "1",
             children: [
               {
                 tag: "div",
-                // id: "1.1",
                 children: "1.1.1",
               },
             ],
           },
           {
             tag: "div",
-            // id: "2",
             children: [
               {
                 tag: "div",
-                // id: "2.1",
                 children: [
                   {
                     tag: "div",
-                    // id: "2.1.1",
                     children: [
                       {
                         tag: "div",
-                        // id: "2.1.1.1",
                         children: "2.1.1.1.1",
                       },
                       {
                         tag: "div",
-                        // id: "2.1.1.2",
                         children: "2.1.1.2.1",
                       },
                     ],
@@ -383,25 +375,20 @@ describe("Diff algo between two virtual dom", () => {
           },
           {
             tag: "div",
-            // id: "3",
             children: [
               {
                 tag: "div",
-                // id: "3.1",
                 children: [
                   {
                     tag: "div",
-                    // id: "3.1.1",
                     children: "3.1.1.1",
                   },
                   {
                     tag: "div",
-                    // id: "3.1.2",
                     children: "3.1.2.1",
                   },
                   {
                     tag: "div",
-                    // id: "3.1.3",
                     children: "3.1.3.1",
                   },
                 ],
@@ -412,17 +399,14 @@ describe("Diff algo between two virtual dom", () => {
                 children: [
                   {
                     tag: "div",
-                    // id: "3.2.1",
                     children: "3.2.1.1",
                   },
                   {
                     tag: "div",
-                    // id: "3.2.2",
                     children: "3.2.2.1",
                   },
                   {
                     tag: "div",
-                    // id: "3.2.3",
                     children: "3.2.3.1",
                   },
                 ],
@@ -433,39 +417,31 @@ describe("Diff algo between two virtual dom", () => {
       };
       const newVirtualDomElement: VirtualDomElement = {
         tag: "div",
-        // id: "root",
         children: [
           {
             tag: "div",
-            // id: "1",
             children: [
               {
                 tag: "div",
-                // id: "1.1",
                 children: "1.1.1-MODIFIED",
               },
             ],
           },
           {
             tag: "div",
-            // id: "2",
             children: [
               {
                 tag: "div",
-                // id: "2.1",
                 children: [
                   {
                     tag: "div",
-                    // id: "2.1.1",
                     children: [
                       {
                         tag: "div",
-                        // id: "2.1.1.1",
                         children: "2.1.1.1.1",
                       },
                       {
                         tag: "div",
-                        // id: "2.1.1.2",
                         children: "2.1.1.2.1",
                       },
                     ],
@@ -476,41 +452,33 @@ describe("Diff algo between two virtual dom", () => {
           },
           {
             tag: "div",
-            // id: "3",
             children: [
               {
                 tag: "div",
-                // id: "3.1",
                 children: [
                   {
                     tag: "div",
-                    // id: "3.1.1",
                     children: "3.1.1.1",
                   },
                   {
                     tag: "div",
-                    // id: "3.1.2",
                     children: "3.1.2.1-MODIFIED",
                   },
                   {
                     tag: "div",
-                    // id: "3.1.3",
                     children: "3.1.3.1",
                   },
                 ],
               },
               {
                 tag: "div",
-                // id: "3.2",
                 children: [
                   {
                     tag: "div",
-                    // id: "3.2.2",
                     children: "3.2.2.1",
                   },
                   {
                     tag: "div",
-                    // id: "3.2.3",
                     children: "3.2.3.1",
                   },
                 ],
@@ -527,30 +495,25 @@ describe("Diff algo between two virtual dom", () => {
       expect(elementsToUpdate).toEqual([
         {
           type: "setText",
-          // id: "1.1",
           path: [0, 0, 0],
           children: "1.1.1-MODIFIED",
         },
 
         {
           type: "setText",
-          // id: "3.1.2",
           path: [0, 2, 0, 1],
           children: "3.1.2.1-MODIFIED",
         },
         {
           type: "setChildren",
-          // id: "3.2",
           path: [0, 2, 1],
           children: [
             {
               tag: "div",
-              // id: "3.2.2",
               children: "3.2.2.1",
             },
             {
               tag: "div",
-              // id: "3.2.3",
               children: "3.2.3.1",
             },
           ],
