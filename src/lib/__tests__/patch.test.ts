@@ -1,6 +1,7 @@
 import { JSDOM } from "jsdom";
 import { patch } from "../patch";
-import { ModificationToApply } from "../diff";
+
+import { ModificationToApply } from "../types";
 
 describe("patch", () => {
   describe("CASE setText", () => {

@@ -1,5 +1,6 @@
 import { diff } from "../diff";
-import { VirtualDomElement } from "../index";
+
+import { VirtualDomElement } from "../types";
 
 describe("Diff algo between two virtual dom", () => {
   describe("Children are Text (string)", () => {

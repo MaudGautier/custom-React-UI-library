@@ -1,5 +1,5 @@
 import { createSubTree } from "./createSubtree";
-import { ModificationToApply, Path } from "./diff";
+import { ModificationToApply, Path } from "./types";
 
 export const pathToDomId = (path: Path) => path.join(".");
 

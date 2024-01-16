@@ -1,5 +1,6 @@
-import { bootstrapApplication, VirtualDomElement, Text } from "./lib";
+import { bootstrapApplication } from "./lib";
 import { useState } from "./lib/hooks";
+import { Text, VirtualDomElement } from "./lib/types";
 
 type ListElementProps = {
   elementText: Text;

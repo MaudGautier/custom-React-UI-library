@@ -1,14 +1,6 @@
 import { diff } from "./diff";
 import { patch } from "./patch";
-
-export type Text = string | number;
-
-export type VirtualDomElement = {
-  tag: "div" | "button";
-  children: VirtualDomElement[] | Text;
-  className?: string;
-  onClick?: () => void;
-};
+import { VirtualDomElement } from "./types";
 
 export let render = undefined;
 
@@ -22,6 +14,7 @@ export function bootstrapApplication(application: () => VirtualDomElement): void
     let NEW_VIRTUAL_DOM = application();
 
     const modifications = diff(PREVIOUS_VIRTUAL_DOM, NEW_VIRTUAL_DOM);
+
     patch(document, modifications);
 
     PREVIOUS_VIRTUAL_DOM = NEW_VIRTUAL_DOM;

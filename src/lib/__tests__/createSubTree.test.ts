@@ -1,6 +1,7 @@
 import { JSDOM } from "jsdom";
 import { createSubTree } from "../createSubtree";
-import { VirtualDomElement } from "../index";
+
+import { VirtualDomElement } from "../types";
 
 describe("createSubTree", () => {
   test("1 child", () => {

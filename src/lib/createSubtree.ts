@@ -1,5 +1,5 @@
 import { isText } from "./diff";
-import { VirtualDomElement, Text } from "./index";
+import { Text, VirtualDomElement } from "./types";
 
 const isALeaf = isText;
 const updateLeaf = (leafNode: HTMLElement, text: Text): void => {

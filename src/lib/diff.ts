@@ -1,25 +1,4 @@
-import { VirtualDomElement, Text } from "./index";
-
-export type Path = [0, ...number[]];
-
-type OnClick = () => void;
-
-export type SetChildrenModification = {
-  path: Path;
-  children: VirtualDomElement[];
-  type: "setChildren";
-};
-export type SetTextModification = {
-  path: Path;
-  children: Text;
-  type: "setText";
-};
-export type SetOnClickModification = {
-  path: Path;
-  onClick: OnClick;
-  type: "setOnClick";
-};
-export type ModificationToApply = SetChildrenModification | SetTextModification | SetOnClickModification;
+import { ModificationToApply, OnClick, Path, Text, VirtualDomElement } from "./types";
 
 export const isText = (child: Text | VirtualDomElement[]): child is Text => {
   return typeof child === "string" || typeof child === "number";
