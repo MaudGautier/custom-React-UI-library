@@ -44,7 +44,9 @@ const compareOnClickProps = (
   differences: ModificationToApply[],
   currentPath: Path
 ) => {
-  if (JSON.stringify(oldNodeOnClickProp) !== JSON.stringify(newNodeOnClickProp)) {
+  const comparableOldNodeOnClickProp = oldNodeOnClickProp ? oldNodeOnClickProp.toString() : oldNodeOnClickProp;
+  const comparableNewNodeOnClickProp = newNodeOnClickProp ? newNodeOnClickProp.toString() : newNodeOnClickProp;
+  if (comparableOldNodeOnClickProp !== comparableNewNodeOnClickProp) {
     differences.push({
       path: currentPath,
       type: "setOnClick",

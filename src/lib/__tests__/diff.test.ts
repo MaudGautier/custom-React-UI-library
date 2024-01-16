@@ -522,9 +522,8 @@ describe("Diff algo between two virtual dom", () => {
     });
   });
 
-  // TODO !! does not work at this stage
-  describe("Deal with event listener", () => {
-    test("Should add event listener if present", () => {
+  describe("Children have clickable buttons", () => {
+    test("A node with a button is different than a node without a button", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",
@@ -562,7 +561,7 @@ describe("Diff algo between two virtual dom", () => {
       );
     });
 
-    test("Should add event listener if present", () => {
+    test("2 button nodes with different `onClick` properties are different", () => {
       // GIVEN
       const oldVirtualDomElement: VirtualDomElement = {
         tag: "div",

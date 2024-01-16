@@ -48,9 +48,9 @@ The differences between the previous and new virtual doms are identified by trav
 - [x] Add useState hook re-rendering on change
 - [x] Compute differences between previous and new virtual dom
 - [x] Allow to patch only differences to recreate only relevant subtrees of the real dom
-- [x] Re-render only necessary sub-parts of the DOM 
+- [x] Re-render only necessary sub-parts of the DOM
 - [x] Add onClick props to differences identified to re-render on button click
-- [ ] Fix unit test on onClick re-render
+- [x] Fix unit test on onClick re-render
 - [ ] Clean unnecessary libraries (serve) and files/functions
 - [ ] Separate sample application into Design System elements and real application
 - [ ] Add new virtual dom elements
