@@ -1,3 +1,7 @@
+// ------------------------------------------------ Real DOM Elements ----------------------------------------------- //
+
+export type WithEventListened<T extends HTMLElement> = T & { eventListened?: OnClick };
+
 // ---------------------------------------------- Virtual DOM Elements --------------------------------------------- //
 
 export type Text = string | number;

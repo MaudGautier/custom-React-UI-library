@@ -225,25 +225,95 @@ describe("patch", () => {
     test("change onclick property", () => {
       // GIVEN
       console.log = jest.fn();
+
+      const previousOnClick = () => {
+        console.log("previousOnClick");
+      };
+      const newOnClick = () => {
+        console.log("newOnClick");
+      };
       const differences: ModificationToApply[] = [
         {
           path: [0],
           type: "setOnClick",
-          onClick: () => {
-            console.log("new onClick");
-          },
+          onClick: newOnClick,
         },
       ];
-      const dom = new JSDOM(`<button id="0" onclick={() => {return "anything"}}>Click on button</button>`);
-      const expectedDom = new JSDOM(`<button id="0" onclick={() => {return "new onClick"}}>Click on button</button>`);
+      const dom = new JSDOM(`<button id="0" onclick={previousOnClick}}>Click on button</button>`);
+      // NB: Not ideal to have to add the event listener in the test (but couldn't find a better way to test the code)
+      dom.window.document.getElementById("0").addEventListener("click", previousOnClick);
+      dom.window.document.getElementById("0").eventListened = previousOnClick;
+
+      const expectedDom = new JSDOM(`<button id="0" onclick={newOnClick}}>Click on button</button>`);
 
       // WHEN
       patch(dom.window.document, differences);
 
       // THEN
       dom.window.document.getElementById("0").click();
-      expect(console.log).toHaveBeenCalledWith("new onClick");
-      expect(console.log).not.toHaveBeenCalledWith("anything");
+      // Ensures that the event listener corresponds to the new onClick function (and not the previous one)
+      expect(console.log).toHaveBeenCalledWith("newOnClick");
+      expect(console.log).not.toHaveBeenCalledWith("previousOnClick");
+      // Ensures that the previous event listener has been removed (only called once not twice)
+      expect(console.log).toHaveBeenCalledTimes(1);
+    });
+
+    test("change onclick property twice in a row", () => {
+      /**
+       * As compared to the test above, this one does _NOT_ add manually the 'addEventListener' nor the 'eventListened'
+       * properties onto the second change => this test ensures that we go through all the stages for the onClick (i.e.
+       * remove previous event listener corresponding to `eventListened` prop, add new event listener corresponding to
+       * the onClick function passed, and input the correct `eventListened` prop).
+       * */
+
+      // GIVEN
+      console.log = jest.fn();
+
+      const previousOnClick = () => {
+        console.log("previousOnClick");
+      };
+      const newOnClick = () => {
+        console.log("newOnClick");
+      };
+      const yetAnotherOnClick = () => {
+        console.log("yetAnotherOnClick");
+      };
+
+      const differences1: ModificationToApply[] = [
+        {
+          path: [0],
+          type: "setOnClick",
+          onClick: newOnClick,
+        },
+      ];
+      const differences2: ModificationToApply[] = [
+        {
+          path: [0],
+          type: "setOnClick",
+          onClick: yetAnotherOnClick,
+        },
+      ];
+
+      const dom = new JSDOM(`<button id="0" onclick={previousOnClick}}>Click on button</button>`);
+      // NB: Not ideal to have to add the event listener in the test (but couldn't find a better way to test the code)
+      dom.window.document.getElementById("0").addEventListener("click", previousOnClick);
+      dom.window.document.getElementById("0").eventListened = previousOnClick;
+
+      const expectedDom1 = new JSDOM(`<button id="0" onclick={newOnClick}}>Click on button</button>`);
+      const expectedDom2 = new JSDOM(`<button id="0" onclick={yetAnotherOnClick}}>Click on button</button>`);
+
+      // WHEN
+      patch(dom.window.document, differences1); // Expect to have expectedDom1 at this stage
+      patch(dom.window.document, differences2); // Expect to have expectedDom2 at this stage
+
+      // THEN
+      dom.window.document.getElementById("0").click();
+      // Ensures that the event listener corresponds to the new onClick function (and not any of the previous ones)
+      expect(console.log).toHaveBeenCalledWith("yetAnotherOnClick");
+      expect(console.log).not.toHaveBeenCalledWith("previousOnClick");
+      expect(console.log).not.toHaveBeenCalledWith("newOnClick");
+      // Ensures that the previous event listener has been removed (only called once not twice)
+      expect(console.log).toHaveBeenCalledTimes(1);
     });
   });
 });

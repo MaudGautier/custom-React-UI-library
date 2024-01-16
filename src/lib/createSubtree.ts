@@ -1,5 +1,5 @@
 import { isText } from "./diff";
-import { Text, VirtualDomElement } from "./types";
+import { Text, VirtualDomElement, WithEventListened } from "./types";
 
 const isALeaf = isText;
 const updateLeaf = (leafNode: HTMLElement, text: Text): void => {
@@ -12,13 +12,17 @@ const createElement = (
   currentElementIndex: number,
   parentId: string
 ) => {
-  const element = document.createElement(virtualDomElement.tag);
+  const element: WithEventListened<HTMLDivElement | HTMLButtonElement> = document.createElement(virtualDomElement.tag);
   const currentElementId = parentId + "." + currentElementIndex;
   element.id = currentElementId;
 
   // Add event listener if onclick
   if (virtualDomElement.onClick) {
+    // Remove the previous event listener to avoid having multiple events firing when clicking once on an element
+    // (i.e. avoid performing the "onClick" action multiple times)
+    element.removeEventListener("click", element.eventListened);
     element.addEventListener("click", virtualDomElement.onClick);
+    element.eventListened = virtualDomElement.onClick;
   }
 
   // STOP CONDITION

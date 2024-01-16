@@ -58,11 +58,17 @@ function addNextNumber(list: number[]): number[] {
 
 function IncrementingList(): VirtualDomElement {
   const [getIncrementingList, updateIncrementingList] = useState<number[]>([1], "incrementingListSlug");
+
+  const incrementingList = getIncrementingList();
+
   const onClick = () => {
-    updateIncrementingList(addNextNumber(getIncrementingList()));
+    // Console logging to see that the list length evolves (i.e. the event listener uses the correct onClick function)
+    console.log("The length of the current list is:", incrementingList.length);
+    updateIncrementingList(addNextNumber(incrementingList));
   };
+
   const button = Button({ onClick, label: "Click to increment list" });
-  const list = List({ children: getIncrementingList() });
+  const list = List({ children: incrementingList });
 
   return Div({ children: [list, button] });
 }
