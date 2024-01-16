@@ -2,7 +2,10 @@ import { render } from "./index";
 
 let state = {};
 
-export function useState<State>(initialValue, slug): [getState: () => State, updateState: (t: State) => void] {
+export function useState<State>(
+  initialValue: State,
+  slug: string
+): [getState: () => State, updateState: (t: State) => void] {
   const getState = <State>(): State => {
     return state[slug];
   };
