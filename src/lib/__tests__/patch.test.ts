@@ -69,7 +69,7 @@ describe("patch", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
-          // id: "root",
+          // id: "0",
           path: [0],
           children: "New child is a string",
           type: "setText",
@@ -81,7 +81,7 @@ describe("patch", () => {
   <div id="0.1">bar</div>
   <div id="0.2">Do not change this</div>
 </div>`);
-      // const expectedDom = new JSDOM(`<div id="root">New child is a string</div>`);
+      // const expectedDom = new JSDOM(`<div id="0">New child is a string</div>`);
 
       // WHEN
       patch(dom.window.document, differences);
@@ -97,7 +97,7 @@ describe("patch", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
-          // id: "root",
+          // id: "0",
           path: [0],
 
           children: [
@@ -129,7 +129,7 @@ describe("patch", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
-          // id: "root",
+          // id: "0",
           path: [0],
 
           children: [
@@ -168,7 +168,7 @@ describe("patch", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
-          // id: "root",
+          // id: "0",
           path: [0],
 
           children: [

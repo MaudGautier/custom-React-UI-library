@@ -12,15 +12,15 @@ describe("createSubTree", () => {
         children: "child2Text",
       },
     ];
-    const dom = new JSDOM(`<div id="root">Old text</div>`);
-    const expectedDom = new JSDOM(`<div id="root"><div id="root.0">child2Text</div></div>`);
+    const dom = new JSDOM(`<div id="0">Old text</div>`);
+    const expectedDom = new JSDOM(`<div id="0"><div id="0.0">child2Text</div></div>`);
 
     // WHEN
-    createSubTree(dom.window.document, children, "root");
+    createSubTree(dom.window.document, children, "0");
 
     // THEN
-    expect(dom.window.document.getElementById("root").children.length).toEqual(1);
-    expect(dom.window.document.getElementById("root.0").textContent).toEqual("child2Text");
+    expect(dom.window.document.getElementById("0").children.length).toEqual(1);
+    expect(dom.window.document.getElementById("0.0").textContent).toEqual("child2Text");
   });
 
   test("2 children", () => {
@@ -37,20 +37,20 @@ describe("createSubTree", () => {
         children: "child2Text",
       },
     ];
-    const dom = new JSDOM(`<div id="root">Old text</div>`);
+    const dom = new JSDOM(`<div id="0">Old text</div>`);
     const expectedDom = new JSDOM(`
-<div id="root">
-    <div id="root.0">child1Text</div>
-    <div id="root.1">child2Text</div>
+<div id="0">
+    <div id="0.0">child1Text</div>
+    <div id="0.1">child2Text</div>
 </div>`);
 
     // WHEN
-    createSubTree(dom.window.document, children, "root");
+    createSubTree(dom.window.document, children, "0");
 
     // THEN
-    expect(dom.window.document.getElementById("root").children.length).toEqual(2);
-    expect(dom.window.document.getElementById("root.0").textContent).toEqual("child1Text");
-    expect(dom.window.document.getElementById("root.1").textContent).toEqual("child2Text");
+    expect(dom.window.document.getElementById("0").children.length).toEqual(2);
+    expect(dom.window.document.getElementById("0.0").textContent).toEqual("child1Text");
+    expect(dom.window.document.getElementById("0.1").textContent).toEqual("child2Text");
   });
 
   test("1 child with 1 grandchild", () => {
@@ -68,21 +68,21 @@ describe("createSubTree", () => {
         ],
       },
     ];
-    const dom = new JSDOM(`<div id="root">Old text</div>`);
+    const dom = new JSDOM(`<div id="0">Old text</div>`);
     const expectedDom = new JSDOM(`
-<div id="root">
-    <div id="root.0">
-        <div id="root.0.0">grandChild</div>
+<div id="0">
+    <div id="0.0">
+        <div id="0.0.0">grandChild</div>
     </div>
 </div>`);
 
     // WHEN
-    createSubTree(dom.window.document, children, "root");
+    createSubTree(dom.window.document, children, "0");
 
     // THEN
-    expect(dom.window.document.getElementById("root").children.length).toEqual(1);
-    expect(dom.window.document.getElementById("root.0").children.length).toEqual(1);
-    expect(dom.window.document.getElementById("root.0.0").textContent).toEqual("grandChild");
+    expect(dom.window.document.getElementById("0").children.length).toEqual(1);
+    expect(dom.window.document.getElementById("0.0").children.length).toEqual(1);
+    expect(dom.window.document.getElementById("0.0.0").textContent).toEqual("grandChild");
   });
 
   test("3 levels of grandchildren (1 each level)", () => {
@@ -106,24 +106,24 @@ describe("createSubTree", () => {
         ],
       },
     ];
-    const dom = new JSDOM(`<div id="root">Old text</div>`);
+    const dom = new JSDOM(`<div id="0">Old text</div>`);
     const expectedDom = new JSDOM(`
-<div id="root">
-    <div id="root.0">
-        <div id="root.0.0">
-            <div id="root.0.0.0">Great-grand-child</div>
+<div id="0">
+    <div id="0.0">
+        <div id="0.0.0">
+            <div id="0.0.0.0">Great-grand-child</div>
         </div>
     </div>
 </div>`);
 
     // WHEN
-    createSubTree(dom.window.document, children, "root");
+    createSubTree(dom.window.document, children, "0");
 
     // THEN
-    expect(dom.window.document.getElementById("root").children.length).toEqual(1);
-    expect(dom.window.document.getElementById("root.0").children.length).toEqual(1);
-    expect(dom.window.document.getElementById("root.0.0").children.length).toEqual(1);
-    expect(dom.window.document.getElementById("root.0.0.0").textContent).toEqual("Great-grand-child");
+    expect(dom.window.document.getElementById("0").children.length).toEqual(1);
+    expect(dom.window.document.getElementById("0.0").children.length).toEqual(1);
+    expect(dom.window.document.getElementById("0.0.0").children.length).toEqual(1);
+    expect(dom.window.document.getElementById("0.0.0.0").textContent).toEqual("Great-grand-child");
   });
 
   test("3 levels of grandchildren (with several at each level)", () => {
@@ -174,35 +174,35 @@ describe("createSubTree", () => {
         ],
       },
     ];
-    const dom = new JSDOM(`<div id="root">Old text</div>`);
+    const dom = new JSDOM(`<div id="0">Old text</div>`);
     const expectedDom = new JSDOM(`
-<div id="root">
-    <div id="root.0">
-        <div id="root.0.0">
-            <div id="root.0.0.0">Great-grand-child1.1.1</div>
+<div id="0">
+    <div id="0.0">
+        <div id="0.0.0">
+            <div id="0.0.0.0">Great-grand-child1.1.1</div>
         </div>
-        <div id="root.0.1">
-            <div id="root.0.1.0">Great-grand-child1.2.1</div>
-            <div id="root.0.1.1">Great-grand-child1.2.2</div>
+        <div id="0.0.1">
+            <div id="0.0.1.0">Great-grand-child1.2.1</div>
+            <div id="0.0.1.1">Great-grand-child1.2.2</div>
         </div>
     </div>
-    <div id="root.1">
-        <div id="root.1.0">Grand-child2.1</div>
+    <div id="0.1">
+        <div id="0.1.0">Grand-child2.1</div>
     </div>
 </div>`);
 
     // WHEN
-    createSubTree(dom.window.document, children, "root");
+    createSubTree(dom.window.document, children, "0");
 
     // THEN
-    expect(dom.window.document.getElementById("root").children.length).toEqual(2);
-    expect(dom.window.document.getElementById("root.0").children.length).toEqual(2);
-    expect(dom.window.document.getElementById("root.0.0").children.length).toEqual(1);
-    expect(dom.window.document.getElementById("root.0.0.0").textContent).toEqual("Great-grand-child1.1.1");
-    expect(dom.window.document.getElementById("root.0.1").children.length).toEqual(2);
-    expect(dom.window.document.getElementById("root.0.1.0").textContent).toEqual("Great-grand-child1.2.1");
-    expect(dom.window.document.getElementById("root.0.1.1").textContent).toEqual("Great-grand-child1.2.2");
-    expect(dom.window.document.getElementById("root.1").children.length).toEqual(1);
-    expect(dom.window.document.getElementById("root.1.0").textContent).toEqual("Grand-child2.1");
+    expect(dom.window.document.getElementById("0").children.length).toEqual(2);
+    expect(dom.window.document.getElementById("0.0").children.length).toEqual(2);
+    expect(dom.window.document.getElementById("0.0.0").children.length).toEqual(1);
+    expect(dom.window.document.getElementById("0.0.0.0").textContent).toEqual("Great-grand-child1.1.1");
+    expect(dom.window.document.getElementById("0.0.1").children.length).toEqual(2);
+    expect(dom.window.document.getElementById("0.0.1.0").textContent).toEqual("Great-grand-child1.2.1");
+    expect(dom.window.document.getElementById("0.0.1.1").textContent).toEqual("Great-grand-child1.2.2");
+    expect(dom.window.document.getElementById("0.1").children.length).toEqual(1);
+    expect(dom.window.document.getElementById("0.1.0").textContent).toEqual("Grand-child2.1");
   });
 });
