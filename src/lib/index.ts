@@ -10,29 +10,11 @@ export type VirtualDomElement = {
   onClick?: () => void;
 };
 
-let state = {};
-
-export function useState<State>(initialValue, slug): [getState: () => State, updateState: (t: State) => void] {
-  const getState = <State>(): State => {
-    return state[slug];
-  };
-  if (!getState()) {
-    state[slug] = initialValue;
-  }
-
-  const updateState = <State>(updatedState: State): void => {
-    state[slug] = updatedState;
-    render();
-  };
-
-  return [getState, updateState];
-}
-
-let render = undefined;
+export let render = undefined;
 
 let PREVIOUS_VIRTUAL_DOM: VirtualDomElement = {
   tag: "div",
-  children: ""
+  children: "",
 };
 
 export function bootstrapApplication(application: () => VirtualDomElement): void {

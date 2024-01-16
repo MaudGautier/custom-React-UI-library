@@ -1,4 +1,5 @@
-import { bootstrapApplication, useState, VirtualDomElement, Text } from "./lib";
+import { bootstrapApplication, VirtualDomElement, Text } from "./lib";
+import { useState } from "./lib/hooks";
 
 type ListElementProps = {
   elementText: Text;
@@ -6,13 +7,13 @@ type ListElementProps = {
 type ButtonProps = {
   onClick: () => void;
   label?: string;
-}
+};
 type DivProps = {
   children: VirtualDomElement[] | Text;
-}
+};
 type ListProps = {
   children: VirtualDomElement[] | Text[];
-}
+};
 
 function ListElement({ elementText }: ListElementProps): VirtualDomElement {
   return {
@@ -45,13 +46,13 @@ function Div({ children }: DivProps): VirtualDomElement {
 }
 
 function Description(): VirtualDomElement {
-  return Div({children: "Hereunder is a sample list of incrementing numbers"})
+  return Div({ children: "Hereunder is a sample list of incrementing numbers" });
 }
 
 function addNextNumber(list: number[]): number[] {
-  const lastElement = list[list.length-1]
+  const lastElement = list[list.length - 1];
 
-  return [...list, lastElement + 1]
+  return [...list, lastElement + 1];
 }
 
 function IncrementingList(): VirtualDomElement {
