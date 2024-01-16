@@ -28,18 +28,18 @@ const createElement = (
     return element;
   }
 
-  const grandChildren = virtualDomElement.children;
-  const grandChildrenElements = grandChildren.map((grandChild, grandChildIndex) =>
-    createElement(document, grandChild, grandChildIndex, currentElementId)
+  const children = virtualDomElement.children;
+  const childrenElements = children.map((child, childIndex) =>
+    createElement(document, child, childIndex, currentElementId)
   );
-  element.replaceChildren(...grandChildrenElements);
+  element.replaceChildren(...childrenElements);
 
   return element;
 };
 
 export const createSubTree = (document: Document, children: VirtualDomElement[], rootId: string) => {
-  const childElements = children.map((child, index) => createElement(document, child, index, rootId));
+  const childrenElements = children.map((child, index) => createElement(document, child, index, rootId));
 
   const rootElement = document.getElementById(rootId);
-  rootElement.replaceChildren(...childElements);
+  rootElement.replaceChildren(...childrenElements);
 };
