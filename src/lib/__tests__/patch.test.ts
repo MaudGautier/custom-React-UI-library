@@ -220,49 +220,29 @@ describe("patch", () => {
     });
   });
 
-  // describe("CASE setOnClick", () => {
-  //   test.only("change onclick property", () => {
-  //     // GIVEN
-  //     const differences: ModificationToApply[] = [
-  //       {
-  //         path: [0],
-  //         type: "setOnClick",
-  //         onClick: () => {
-  //           console.log("new onClick");
-  //         },
-  //       },
-  //     ];
-  //     const dom = new JSDOM(`<button id="0" onclick={() => {console.log("anything")}}>Click on button</button>`);
-  //     const expectedDom = new JSDOM(
-  //       `<button id="0" onclick={() => {console.log("new onClick")}}>Click on button</button>`
-  //     );
-  //
-  //     // WHEN
-  //     // patch(dom.window.document, differences);
-  //
-  //     const TESTdom = new JSDOM(`<button id="0" onclick={() => {console.log("blabla")}}>Click on button</button>`);
-  //
-  //     console.log("testing");
-  //     const elem = TESTdom.window.document.getElementById("0");
-  //     userEvent.click(elem);
-  //     // TESTdom.window.document.getElementById("0").click();
-  //
-  //     // THEN
-  //     // expect(dom.window.document.getElementById("0").onclick).toEqual(() => {
-  //     //   console.log("new onClick");
-  //     // });
-  //   });
-  // });
+  describe("CASE setOnClick", () => {
+    test("change onclick property", () => {
+      // GIVEN
+      console.log = jest.fn();
+      const differences: ModificationToApply[] = [
+        {
+          path: [0],
+          type: "setOnClick",
+          onClick: () => {
+            console.log("new onClick");
+          },
+        },
+      ];
+      const dom = new JSDOM(`<button id="0" onclick={() => {return "anything"}}>Click on button</button>`);
+      const expectedDom = new JSDOM(`<button id="0" onclick={() => {return "new onClick"}}>Click on button</button>`);
 
-  // test.only("click", () => {
-  //   render(
-  //     <div>
-  //       <label htmlFor="checkbox">Check</label>
-  //       <input id="checkbox" type="checkbox" />
-  //     </div>
-  //   );
-  //
-  //   userEvent.click(screen.getByText("Check"));
-  //   expect(screen.getByLabelText("Check")).toBeChecked();
-  // });
+      // WHEN
+      patch(dom.window.document, differences);
+
+      // THEN
+      dom.window.document.getElementById("0").click();
+      expect(console.log).toHaveBeenCalledWith("new onClick");
+      expect(console.log).not.toHaveBeenCalledWith("anything");
+    });
+  });
 });
