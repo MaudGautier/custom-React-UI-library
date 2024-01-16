@@ -1,4 +1,4 @@
-import { diff, isText } from "./diff";
+import { diff } from "./diff";
 import { patch } from "./patch";
 
 export type Text = string | number;
@@ -8,7 +8,6 @@ export type VirtualDomElement = {
   children: VirtualDomElement[] | Text;
   className?: string;
   onClick?: () => void;
-  // id: string;
 };
 
 let state = {};
@@ -31,21 +30,18 @@ export function useState<State>(initialValue, slug): [getState: () => State, upd
 
 let render = undefined;
 
-let PREVIOUS_VIRTUAL_DOM = {
-  tag: "div" as const,
-  children: "root",
+let PREVIOUS_VIRTUAL_DOM: VirtualDomElement = {
+  tag: "div",
+  children: ""
 };
 
-export function bootstrapApplication(rootId: string, application: () => VirtualDomElement): void {
+export function bootstrapApplication(application: () => VirtualDomElement): void {
   function renderDom() {
-    const root = document.getElementById(rootId);
-
     let NEW_VIRTUAL_DOM = application();
 
     const modifications = diff(PREVIOUS_VIRTUAL_DOM, NEW_VIRTUAL_DOM);
     patch(document, modifications);
 
-    // @ts-ignore
     PREVIOUS_VIRTUAL_DOM = NEW_VIRTUAL_DOM;
   }
 

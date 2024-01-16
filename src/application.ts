@@ -73,4 +73,4 @@ function Application() {
   return application;
 }
 
-bootstrapApplication("0", Application);
+bootstrapApplication(Application);

@@ -37,7 +37,7 @@ const createElement = (
   return element;
 };
 
-export const createSubTree = (document: Document, children: VirtualDomElement[], rootId) => {
+export const createSubTree = (document: Document, children: VirtualDomElement[], rootId: string) => {
   const childElements = children.map((child, index) => createElement(document, child, index, rootId));
 
   const rootElement = document.getElementById(rootId);

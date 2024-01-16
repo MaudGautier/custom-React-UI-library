@@ -28,12 +28,7 @@ const isChildAnArray = (child: Text | VirtualDomElement[]): child is VirtualDomE
   return typeof child === "object";
 };
 
-const compareTexts = (
-  oldText: Text,
-  newText: Text,
-  differences: ModificationToApply[],
-  currentPath: Path
-) => {
+const compareTexts = (oldText: Text, newText: Text, differences: ModificationToApply[], currentPath: Path) => {
   if (oldText !== newText) {
     differences.push({
       path: currentPath,
@@ -49,7 +44,6 @@ const compareOnClickProps = (
   differences: ModificationToApply[],
   currentPath: Path
 ) => {
-  // TODO: references comparées alors que devrait pas
   if (JSON.stringify(oldNodeOnClickProp) !== JSON.stringify(newNodeOnClickProp)) {
     differences.push({
       path: currentPath,
@@ -85,7 +79,7 @@ const compareArrayChildren = (
   }
 
   if (isText(oldNode.children) || isText(newNode.children)) {
-    throw new Error("All cases of old or new node with Text should already have been handled at this stage!")
+    throw new Error("All cases of old or new node with Text should already have been handled at this stage!");
   }
 
   const childrenArraySizesDiffer = oldNode.children.length !== newNode.children.length;
@@ -105,18 +99,8 @@ const compareNodes = (
   differences: ModificationToApply[],
   currentPath: Path
 ) => {
-  // // TODO/ this not tested - voir si on veut comparer les ID, et si oui que mettre ?
-  // if (oldNode.id != newNode.id) {
-  //   differences.push({
-  //     id: oldNode.id,
-  //     type: "setText",
-  //     children: newNode.children,
-  //   });
-  // }
-
   // CASE both are texts
   if (isText(oldNode.children) && isText(newNode.children)) {
-    // TODO: deal with case where both children and onClick change (later)
     compareTexts(oldNode.children, newNode.children, differences, currentPath);
     compareOnClickProps(oldNode.onClick, newNode.onClick, differences, currentPath);
 
@@ -133,7 +117,10 @@ export const compareTrees = (
   differences: ModificationToApply[],
   currentPath: Path
 ): ModificationToApply[] => {
+  // Compare current nodes
   compareNodes(oldNode, newNode, differences, currentPath);
+
+  // Compare children
   const oldNodeChildren = oldNode.children;
   const newNodeChildren = newNode.children;
 
