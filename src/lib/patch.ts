@@ -16,7 +16,7 @@ export const patch = (document: Document, modificationsToApply: ModificationToAp
     }
 
     if (modificationToApply.type === "setText") {
-      updateText(elementToUpdate, modificationToApply.children);
+      updateText(elementToUpdate, modificationToApply.text);
     }
   });
 };

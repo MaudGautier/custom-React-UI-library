@@ -12,7 +12,7 @@ const compareTexts = (oldText: Text, newText: Text, differences: ModificationToA
     differences.push({
       path: currentPath,
       type: "setText",
-      children: newText,
+      text: newText,
     });
   }
 };
@@ -42,7 +42,7 @@ const compareArrayChildren = (
     differences.push({
       path: currentPath,
       type: "setText",
-      children: newNode.children,
+      text: newNode.children,
     });
 
     return;

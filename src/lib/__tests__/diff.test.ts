@@ -40,7 +40,7 @@ describe("Diff algo between two virtual dom", () => {
       expect(elementsToUpdate).toEqual([
         {
           path: [0],
-          children: "element2",
+          text: "element2",
           type: "setText",
         },
       ]);
@@ -84,7 +84,7 @@ describe("Diff algo between two virtual dom", () => {
       expect(elementsToUpdate).toEqual([
         {
           path: [0],
-          children: 2,
+          text: 2,
           type: "setText",
         },
       ]);
@@ -121,7 +121,7 @@ describe("Diff algo between two virtual dom", () => {
         {
           path: [0, 0],
           type: "setText",
-          children: "newText",
+          text: "newText",
         },
       ]);
     });
@@ -163,7 +163,7 @@ describe("Diff algo between two virtual dom", () => {
         {
           type: "setText",
           path: [0, 1],
-          children: "child2newText",
+          text: "child2newText",
         },
       ]);
     });
@@ -288,7 +288,7 @@ describe("Diff algo between two virtual dom", () => {
         {
           type: "setText",
           path: [0],
-          children: "new children",
+          text: "new children",
         },
       ]);
     });
@@ -497,13 +497,13 @@ describe("Diff algo between two virtual dom", () => {
         {
           type: "setText",
           path: [0, 0, 0],
-          children: "1.1.1-MODIFIED",
+          text: "1.1.1-MODIFIED",
         },
 
         {
           type: "setText",
           path: [0, 2, 0, 1],
-          children: "3.1.2.1-MODIFIED",
+          text: "3.1.2.1-MODIFIED",
         },
         {
           type: "setChildren",

@@ -28,7 +28,7 @@ export type SetChildrenModification = {
 
 export type SetTextModification = {
   path: Path;
-  children: Text;
+  text: Text;
   type: "setText";
 };
 

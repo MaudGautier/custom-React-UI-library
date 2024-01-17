@@ -9,14 +9,13 @@ describe("patch", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
-          // id: "0",
           path: [0],
-          children: "Hello World",
+          text: "Hello World",
           type: "setText",
         },
       ];
       const dom = new JSDOM(`<div id="0">foo</div>`);
-      // const expectedDom = new JSDOM(`<div id="1">Hello World</div>`);
+      const expectedDom = new JSDOM(`<div id="1">Hello World</div>`);
 
       // WHEN
       patch(dom.window.document, differences);
@@ -29,15 +28,13 @@ describe("patch", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
-          // id: "1",
           path: [0, 0],
-          children: "Hello World",
+          text: "Hello World",
           type: "setText",
         },
         {
-          // id: "2",
           path: [0, 1],
-          children: "New text",
+          text: "New text",
           type: "setText",
         },
       ];
@@ -47,13 +44,13 @@ describe("patch", () => {
   <div id="0.1">bar</div>
   <div id="0.2">Do not change this</div>
 </div>`);
-      //       const expectedDom = new JSDOM(`
-      // <div id="0">
-      //   <div id="0.0">Hello World</div>
-      //   <div id="0.1">New text</div>
-      //   <div id="0.2">Do not change this</div>
-      // </div>\`);
-      // `);
+      const expectedDom = new JSDOM(`
+      <div id="0">
+        <div id="0.0">Hello World</div>
+        <div id="0.1">New text</div>
+        <div id="0.2">Do not change this</div>
+      </div>\`);
+      `);
 
       // WHEN
       patch(dom.window.document, differences);
@@ -70,9 +67,8 @@ describe("patch", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
-          // id: "0",
           path: [0],
-          children: "New child is a string",
+          text: "New child is a string",
           type: "setText",
         },
       ];
@@ -98,13 +94,10 @@ describe("patch", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
-          // id: "0",
           path: [0],
-
           children: [
             {
               tag: "div",
-              // id: "child1",
               children: "child1Text",
             },
           ],
@@ -130,18 +123,14 @@ describe("patch", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
-          // id: "0",
           path: [0],
-
           children: [
             {
               tag: "div",
-              // id: "child1",
               children: "child1Text",
             },
             {
               tag: "div",
-              // id: "child2",
               children: "child2Text",
             },
           ],
@@ -169,29 +158,23 @@ describe("patch", () => {
       // GIVEN
       const differences: ModificationToApply[] = [
         {
-          // id: "0",
           path: [0],
-
           children: [
             {
               tag: "div",
-              // id: "child1",
               children: [
                 {
                   tag: "div",
-                  // id: "child1.1",
                   children: "child1.1Text",
                 },
                 {
                   tag: "div",
-                  // id: "child1.2",
                   children: "child1.2Text",
                 },
               ],
             },
             {
               tag: "div",
-              // id: "child2",
               children: "child2Text",
             },
           ],
