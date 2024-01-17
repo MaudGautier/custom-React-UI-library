@@ -22,7 +22,7 @@ export type OnClick = () => void;
 
 export type SetChildrenModification = {
   path: Path;
-  children: VirtualDomElement[];
+  node: VirtualDomElement;
   type: "setChildren";
 };
 

@@ -52,7 +52,7 @@ const compareArrayChildren = (
     differences.push({
       path: currentPath,
       type: "setChildren",
-      children: newNode.children,
+      node: newNode,
     });
     return;
   }
@@ -67,7 +67,7 @@ const compareArrayChildren = (
     differences.push({
       path: currentPath,
       type: "setChildren",
-      children: newNode.children,
+      node: newNode,
     });
   }
 };

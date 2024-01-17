@@ -45,10 +45,17 @@ const _createSubTree = (document: Document, virtualDomElement: VirtualDomElement
 };
 
 // TODO: createSubTree and _createSubTree can be refactored together once I pass the parent virtualDomElement (instead of children)
-export const createSubTree = (document: Document, virtualDomElementChildren: VirtualDomElement[], rootId: string) => {
+export const createSubTree = (document: Document, virtualDomElement: VirtualDomElement, rootId: string) => {
   const rootElement = document.getElementById(rootId);
 
-  const childrenElements = virtualDomElementChildren.map((child, childIndex) =>
+  const children = virtualDomElement.children;
+
+  // STOP CONDITION: If is a leaf, then return this element
+  if (isALeaf(children)) {
+    return rootElement;
+  }
+
+  const childrenElements = children.map((child, childIndex) =>
     _createSubTree(document, child, pathToDomId([rootId, childIndex]))
   );
 

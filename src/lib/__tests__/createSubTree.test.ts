@@ -9,15 +9,15 @@ describe("createSubTree", () => {
     const children: VirtualDomElement[] = [
       {
         tag: "div",
-        // id: "child2",
         children: "child2Text",
       },
     ];
+    const newNode: VirtualDomElement = { tag: "div", children };
     const dom = new JSDOM(`<div id="0">Old text</div>`);
     const expectedDom = new JSDOM(`<div id="0"><div id="0.0">child2Text</div></div>`);
 
     // WHEN
-    createSubTree(dom.window.document, children, "0");
+    createSubTree(dom.window.document, newNode, "0");
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -29,15 +29,15 @@ describe("createSubTree", () => {
     const children: VirtualDomElement[] = [
       {
         tag: "div",
-        // id: "child1",
         children: "child1Text",
       },
       {
         tag: "div",
-        // id: "child2",
         children: "child2Text",
       },
     ];
+    const newNode: VirtualDomElement = { tag: "div", children };
+
     const dom = new JSDOM(`<div id="0">Old text</div>`);
     const expectedDom = new JSDOM(`
 <div id="0">
@@ -46,7 +46,7 @@ describe("createSubTree", () => {
 </div>`);
 
     // WHEN
-    createSubTree(dom.window.document, children, "0");
+    createSubTree(dom.window.document, newNode, "0");
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(2);
@@ -59,16 +59,16 @@ describe("createSubTree", () => {
     const children: VirtualDomElement[] = [
       {
         tag: "div",
-        // id: "child1",
         children: [
           {
             tag: "div",
-            // id: "child1.1",
             children: "grandChild",
           },
         ],
       },
     ];
+    const newNode: VirtualDomElement = { tag: "div", children };
+
     const dom = new JSDOM(`<div id="0">Old text</div>`);
     const expectedDom = new JSDOM(`
 <div id="0">
@@ -78,7 +78,7 @@ describe("createSubTree", () => {
 </div>`);
 
     // WHEN
-    createSubTree(dom.window.document, children, "0");
+    createSubTree(dom.window.document, newNode, "0");
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -91,15 +91,12 @@ describe("createSubTree", () => {
     const children: VirtualDomElement[] = [
       {
         tag: "div",
-        // id: "child1",
         children: [
           {
             tag: "div",
-            // id: "child1.1",
             children: [
               {
                 tag: "div",
-                // id: "child1.1.1",
                 children: "Great-grand-child",
               },
             ],
@@ -107,6 +104,8 @@ describe("createSubTree", () => {
         ],
       },
     ];
+    const newNode: VirtualDomElement = { tag: "div", children };
+
     const dom = new JSDOM(`<div id="0">Old text</div>`);
     const expectedDom = new JSDOM(`
 <div id="0">
@@ -118,7 +117,7 @@ describe("createSubTree", () => {
 </div>`);
 
     // WHEN
-    createSubTree(dom.window.document, children, "0");
+    createSubTree(dom.window.document, newNode, "0");
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -132,31 +131,25 @@ describe("createSubTree", () => {
     const children: VirtualDomElement[] = [
       {
         tag: "div",
-        // id: "child1",
         children: [
           {
             tag: "div",
-            // id: "child1.1",
             children: [
               {
                 tag: "div",
-                // id: "child1.1.1",
                 children: "Great-grand-child1.1.1",
               },
             ],
           },
           {
             tag: "div",
-            // id: "child1.2",
             children: [
               {
                 tag: "div",
-                // id: "child1.2.1",
                 children: "Great-grand-child1.2.1",
               },
               {
                 tag: "div",
-                // id: "child1.2.2",
                 children: "Great-grand-child1.2.2",
               },
             ],
@@ -165,16 +158,16 @@ describe("createSubTree", () => {
       },
       {
         tag: "div",
-        // id: "child2",
         children: [
           {
             tag: "div",
-            // id: "child2.1",
             children: "Grand-child2.1",
           },
         ],
       },
     ];
+    const newNode: VirtualDomElement = { tag: "div", children };
+
     const dom = new JSDOM(`<div id="0">Old text</div>`);
     const expectedDom = new JSDOM(`
 <div id="0">
@@ -193,7 +186,7 @@ describe("createSubTree", () => {
 </div>`);
 
     // WHEN
-    createSubTree(dom.window.document, children, "0");
+    createSubTree(dom.window.document, newNode, "0");
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(2);

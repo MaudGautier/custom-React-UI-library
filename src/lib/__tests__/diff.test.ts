@@ -207,16 +207,19 @@ describe("Diff algo between two virtual dom", () => {
         {
           type: "setChildren",
           path: [0],
-          children: [
-            {
-              tag: "div",
-              children: "child1Text",
-            },
-            {
-              tag: "div",
-              children: "child2newText",
-            },
-          ],
+          node: {
+            tag: "div",
+            children: [
+              {
+                tag: "div",
+                children: "child1Text",
+              },
+              {
+                tag: "div",
+                children: "child2newText",
+              },
+            ],
+          },
         },
       ];
       expect(elementsToUpdate).toEqual(expectedModifications);
@@ -255,12 +258,15 @@ describe("Diff algo between two virtual dom", () => {
         {
           type: "setChildren",
           path: [0],
-          children: [
-            {
-              tag: "div",
-              children: "child1Text",
-            },
-          ],
+          node: {
+            tag: "div",
+            children: [
+              {
+                tag: "div",
+                children: "child1Text",
+              },
+            ],
+          },
         },
       ];
       expect(elementsToUpdate).toEqual(expectedModifications);
@@ -330,16 +336,19 @@ describe("Diff algo between two virtual dom", () => {
         {
           type: "setChildren",
           path: [0],
-          children: [
-            {
-              tag: "div",
-              children: "child1Text",
-            },
-            {
-              tag: "div",
-              children: "child2oldText",
-            },
-          ],
+          node: {
+            tag: "div",
+            children: [
+              {
+                tag: "div",
+                children: "child1Text",
+              },
+              {
+                tag: "div",
+                children: "child2oldText",
+              },
+            ],
+          },
         },
       ];
       expect(elementsToUpdate).toEqual(expectedModifications);
@@ -406,7 +415,6 @@ describe("Diff algo between two virtual dom", () => {
               },
               {
                 tag: "div",
-                // id: "3.2",
                 children: [
                   {
                     tag: "div",
@@ -518,16 +526,19 @@ describe("Diff algo between two virtual dom", () => {
         {
           type: "setChildren",
           path: [0, 2, 1],
-          children: [
-            {
-              tag: "div",
-              children: "3.2.2.1",
-            },
-            {
-              tag: "div",
-              children: "3.2.3.1",
-            },
-          ],
+          node: {
+            tag: "div",
+            children: [
+              {
+                tag: "div",
+                children: "3.2.2.1",
+              },
+              {
+                tag: "div",
+                children: "3.2.3.1",
+              },
+            ],
+          },
         },
       ];
       expect(elementsToUpdate).toEqual(expectedModifications);
@@ -560,13 +571,16 @@ describe("Diff algo between two virtual dom", () => {
         {
           path: [0],
           type: "setChildren",
-          children: [
-            {
-              tag: "button",
-              children: "Click on button",
-              onClick: () => {},
-            },
-          ],
+          node: {
+            tag: "div",
+            children: [
+              {
+                tag: "button",
+                children: "Click on button",
+                onClick: () => {},
+              },
+            ],
+          },
         },
       ];
       expect(JSON.stringify(elementsToUpdate)).toEqual(JSON.stringify(expectedModifications));

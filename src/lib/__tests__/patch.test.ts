@@ -95,12 +95,15 @@ describe("patch", () => {
       const differences: ModificationToApply[] = [
         {
           path: [0],
-          children: [
-            {
-              tag: "div",
-              children: "child1Text",
-            },
-          ],
+          node: {
+            tag: "div",
+            children: [
+              {
+                tag: "div",
+                children: "child1Text",
+              },
+            ],
+          },
           type: "setChildren",
         },
       ];
@@ -124,16 +127,19 @@ describe("patch", () => {
       const differences: ModificationToApply[] = [
         {
           path: [0],
-          children: [
-            {
-              tag: "div",
-              children: "child1Text",
-            },
-            {
-              tag: "div",
-              children: "child2Text",
-            },
-          ],
+          node: {
+            tag: "div",
+            children: [
+              {
+                tag: "div",
+                children: "child1Text",
+              },
+              {
+                tag: "div",
+                children: "child2Text",
+              },
+            ],
+          },
           type: "setChildren",
         },
       ];
@@ -159,25 +165,28 @@ describe("patch", () => {
       const differences: ModificationToApply[] = [
         {
           path: [0],
-          children: [
-            {
-              tag: "div",
-              children: [
-                {
-                  tag: "div",
-                  children: "child1.1Text",
-                },
-                {
-                  tag: "div",
-                  children: "child1.2Text",
-                },
-              ],
-            },
-            {
-              tag: "div",
-              children: "child2Text",
-            },
-          ],
+          node: {
+            tag: "div",
+            children: [
+              {
+                tag: "div",
+                children: [
+                  {
+                    tag: "div",
+                    children: "child1.1Text",
+                  },
+                  {
+                    tag: "div",
+                    children: "child1.2Text",
+                  },
+                ],
+              },
+              {
+                tag: "div",
+                children: "child2Text",
+              },
+            ],
+          },
           type: "setChildren",
         },
       ];
