@@ -1,9 +1,9 @@
 import { JSDOM } from "jsdom";
-import { createSubTree } from "../createSubtree";
+import { createDOMTree } from "../createDOMTree";
 
 import { VirtualDomElement } from "../types";
 
-describe("createSubTree", () => {
+describe("createDOMTree", () => {
   test("1 child", () => {
     // GIVEN
     const children: VirtualDomElement[] = [
@@ -18,7 +18,7 @@ describe("createSubTree", () => {
 
     // WHEN
     const element = dom.window.document.getElementById("0");
-    createSubTree(dom.window.document, newNode, element);
+    createDOMTree(dom.window.document, newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -48,7 +48,7 @@ describe("createSubTree", () => {
 
     // WHEN
     const element = dom.window.document.getElementById("0");
-    createSubTree(dom.window.document, newNode, element);
+    createDOMTree(dom.window.document, newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(2);
@@ -81,7 +81,7 @@ describe("createSubTree", () => {
 
     // WHEN
     const element = dom.window.document.getElementById("0");
-    createSubTree(dom.window.document, newNode, element);
+    createDOMTree(dom.window.document, newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -121,7 +121,7 @@ describe("createSubTree", () => {
 
     // WHEN
     const element = dom.window.document.getElementById("0");
-    createSubTree(dom.window.document, newNode, element);
+    createDOMTree(dom.window.document, newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -191,7 +191,7 @@ describe("createSubTree", () => {
 
     // WHEN
     const element = dom.window.document.getElementById("0");
-    createSubTree(dom.window.document, newNode, element);
+    createDOMTree(dom.window.document, newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(2);
