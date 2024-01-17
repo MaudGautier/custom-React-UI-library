@@ -8,7 +8,7 @@ export const patch = (document: Document, modificationsToApply: ModificationToAp
     const elementToUpdate: WithEventListened<HTMLElement> = document.getElementById(elementPath);
 
     if (modificationToApply.type === "setChildren") {
-      createSubTree(document, modificationToApply.node, elementToUpdate.id);
+      createSubTree(document, modificationToApply.node, elementToUpdate);
     }
 
     if (modificationToApply.type === "setOnClick") {

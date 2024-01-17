@@ -17,7 +17,8 @@ describe("createSubTree", () => {
     const expectedDom = new JSDOM(`<div id="0"><div id="0.0">child2Text</div></div>`);
 
     // WHEN
-    createSubTree(dom.window.document, newNode, "0");
+    const element = dom.window.document.getElementById("0");
+    createSubTree(dom.window.document, newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -46,7 +47,8 @@ describe("createSubTree", () => {
 </div>`);
 
     // WHEN
-    createSubTree(dom.window.document, newNode, "0");
+    const element = dom.window.document.getElementById("0");
+    createSubTree(dom.window.document, newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(2);
@@ -78,7 +80,8 @@ describe("createSubTree", () => {
 </div>`);
 
     // WHEN
-    createSubTree(dom.window.document, newNode, "0");
+    const element = dom.window.document.getElementById("0");
+    createSubTree(dom.window.document, newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -117,7 +120,8 @@ describe("createSubTree", () => {
 </div>`);
 
     // WHEN
-    createSubTree(dom.window.document, newNode, "0");
+    const element = dom.window.document.getElementById("0");
+    createSubTree(dom.window.document, newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -186,7 +190,8 @@ describe("createSubTree", () => {
 </div>`);
 
     // WHEN
-    createSubTree(dom.window.document, newNode, "0");
+    const element = dom.window.document.getElementById("0");
+    createSubTree(dom.window.document, newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(2);

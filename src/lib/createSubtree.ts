@@ -1,14 +1,10 @@
 import { isText } from "./diff";
-import { VirtualDomElement, WithEventListened } from "./types";
+import { VirtualDomElement } from "./types";
 import { pathToDomId, updateOnClick, updateText } from "./utils";
 
 const isALeaf = isText;
 
-const createHTMLElement = (
-  document: Document,
-  virtualDomElement: VirtualDomElement,
-  elementDomId: string
-): WithEventListened<HTMLDivElement | HTMLButtonElement> => {
+const createHTMLElement = (document: Document, virtualDomElement: VirtualDomElement, elementDomId: string) => {
   // Create HTML element
   const element = document.createElement(virtualDomElement.tag);
   element.id = elementDomId;
@@ -26,38 +22,19 @@ const createHTMLElement = (
   return element;
 };
 
-const _createSubTree = (document: Document, virtualDomElement: VirtualDomElement, elementDomId: string) => {
-  const element = createHTMLElement(document, virtualDomElement, elementDomId);
-
-  // STOP CONDITION: If is a leaf, then return this element
-  if (isALeaf(virtualDomElement.children)) {
-    return element;
-  }
-
-  // Otherwise, recursively create all children elements
-  const children = virtualDomElement.children;
-  const childrenElements = children.map((child, childIndex) =>
-    _createSubTree(document, child, pathToDomId([elementDomId, childIndex]))
-  );
-  element.replaceChildren(...childrenElements);
-
-  return element;
-};
-
-// TODO: createSubTree and _createSubTree can be refactored together once I pass the parent virtualDomElement (instead of children)
-export const createSubTree = (document: Document, virtualDomElement: VirtualDomElement, rootId: string) => {
-  const rootElement = document.getElementById(rootId);
-
+export const createSubTree = (document: Document, virtualDomElement: VirtualDomElement, element: HTMLElement) => {
   const children = virtualDomElement.children;
 
   // STOP CONDITION: If is a leaf, then return this element
   if (isALeaf(children)) {
-    return rootElement;
+    return element;
   }
 
   const childrenElements = children.map((child, childIndex) =>
-    _createSubTree(document, child, pathToDomId([rootId, childIndex]))
+    createSubTree(document, child, createHTMLElement(document, child, pathToDomId([element.id, childIndex])))
   );
 
-  rootElement.replaceChildren(...childrenElements);
+  element.replaceChildren(...childrenElements);
+
+  return element;
 };
