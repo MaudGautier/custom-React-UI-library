@@ -17,7 +17,7 @@ export const updateDOMElementText = (element: WithEventListened<HTMLElement>, te
   element.textContent = text.toString();
 };
 
-const createDOMElement = (document: Document, virtualDomElement: VirtualDomElement, elementDomId: string) => {
+const createDOMElement = (virtualDomElement: VirtualDomElement, elementDomId: string) => {
   const element = document.createElement(virtualDomElement.tag);
   element.id = elementDomId;
 
@@ -34,7 +34,7 @@ const createDOMElement = (document: Document, virtualDomElement: VirtualDomEleme
   return element;
 };
 
-export const createDOMTree = (document: Document, virtualDomElement: VirtualDomElement, element: HTMLElement) => {
+export const createDOMTree = (virtualDomElement: VirtualDomElement, element: HTMLElement) => {
   const children = virtualDomElement.children;
 
   // STOP CONDITION: If is a leaf, then return this element
@@ -43,7 +43,7 @@ export const createDOMTree = (document: Document, virtualDomElement: VirtualDomE
   }
 
   const childrenElements = children.map((child, childIndex) =>
-    createDOMTree(document, child, createDOMElement(document, child, pathToDOMId([element.id, childIndex])))
+    createDOMTree(child, createDOMElement(child, pathToDOMId([element.id, childIndex])))
   );
 
   element.replaceChildren(...childrenElements);

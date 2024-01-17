@@ -15,7 +15,7 @@ export function bootstrapApplication(application: () => VirtualDomElement): void
 
     const modifications = diff(PREVIOUS_VIRTUAL_DOM, NEW_VIRTUAL_DOM);
 
-    patch(document, modifications);
+    patch(modifications);
 
     PREVIOUS_VIRTUAL_DOM = NEW_VIRTUAL_DOM;
   }

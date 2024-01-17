@@ -1,3 +1,5 @@
+// noinspection JSConstantReassignment
+
 import { JSDOM } from "jsdom";
 import { createDOMTree } from "../createDOMTree";
 
@@ -17,8 +19,9 @@ describe("createDOMTree", () => {
     const expectedDom = new JSDOM(`<div id="0"><div id="0.0">child2Text</div></div>`);
 
     // WHEN
-    const element = dom.window.document.getElementById("0");
-    createDOMTree(dom.window.document, newNode, element);
+    global.document = dom.window.document;
+    const element = document.getElementById("0");
+    createDOMTree(newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -47,8 +50,9 @@ describe("createDOMTree", () => {
 </div>`);
 
     // WHEN
-    const element = dom.window.document.getElementById("0");
-    createDOMTree(dom.window.document, newNode, element);
+    global.document = dom.window.document;
+    const element = document.getElementById("0");
+    createDOMTree(newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(2);
@@ -80,8 +84,9 @@ describe("createDOMTree", () => {
 </div>`);
 
     // WHEN
-    const element = dom.window.document.getElementById("0");
-    createDOMTree(dom.window.document, newNode, element);
+    global.document = dom.window.document;
+    const element = document.getElementById("0");
+    createDOMTree(newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -120,8 +125,9 @@ describe("createDOMTree", () => {
 </div>`);
 
     // WHEN
-    const element = dom.window.document.getElementById("0");
-    createDOMTree(dom.window.document, newNode, element);
+    global.document = dom.window.document;
+    const element = document.getElementById("0");
+    createDOMTree(newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -190,8 +196,9 @@ describe("createDOMTree", () => {
 </div>`);
 
     // WHEN
-    const element = dom.window.document.getElementById("0");
-    createDOMTree(dom.window.document, newNode, element);
+    global.document = dom.window.document;
+    const element = document.getElementById("0");
+    createDOMTree(newNode, element);
 
     // THEN
     expect(dom.window.document.getElementById("0").children.length).toEqual(2);

@@ -1,3 +1,5 @@
+// noinspection JSConstantReassignment
+
 import { JSDOM } from "jsdom";
 import { patch } from "../patch";
 
@@ -18,10 +20,11 @@ describe("patch", () => {
       const expectedDom = new JSDOM(`<div id="1">Hello World</div>`);
 
       // WHEN
-      patch(dom.window.document, differences);
+      global.document = dom.window.document;
+      patch(differences);
 
       // THEN
-      expect(dom.window.document.getElementById("0").textContent).toEqual("Hello World");
+      expect(document.getElementById("0").textContent).toEqual("Hello World");
     });
 
     test("If we have two setText for two parts of the dom => both parts should be updated", () => {
@@ -39,21 +42,22 @@ describe("patch", () => {
         },
       ];
       const dom = new JSDOM(`
-<div id="0">
-  <div id="0.0">foo</div>
-  <div id="0.1">bar</div>
-  <div id="0.2">Do not change this</div>
-</div>`);
+    <div id="0">
+      <div id="0.0">foo</div>
+      <div id="0.1">bar</div>
+      <div id="0.2">Do not change this</div>
+    </div>`);
       const expectedDom = new JSDOM(`
-      <div id="0">
-        <div id="0.0">Hello World</div>
-        <div id="0.1">New text</div>
-        <div id="0.2">Do not change this</div>
-      </div>\`);
-      `);
+          <div id="0">
+            <div id="0.0">Hello World</div>
+            <div id="0.1">New text</div>
+            <div id="0.2">Do not change this</div>
+          </div>\`);
+          `);
 
       // WHEN
-      patch(dom.window.document, differences);
+      global.document = dom.window.document;
+      patch(differences);
 
       // THEN
       expect(dom.window.document.getElementById("0.0").textContent).toEqual("Hello World");
@@ -73,15 +77,16 @@ describe("patch", () => {
         },
       ];
       const dom = new JSDOM(`
-<div id="0">
-  <div id="0.0">foo</div>
-  <div id="0.1">bar</div>
-  <div id="0.2">Do not change this</div>
-</div>`);
+    <div id="0">
+      <div id="0.0">foo</div>
+      <div id="0.1">bar</div>
+      <div id="0.2">Do not change this</div>
+    </div>`);
       // const expectedDom = new JSDOM(`<div id="0">New child is a string</div>`);
 
       // WHEN
-      patch(dom.window.document, differences);
+      global.document = dom.window.document;
+      patch(differences);
 
       // THEN
       expect(dom.window.document.getElementById("0").textContent).toEqual("New child is a string");
@@ -110,12 +115,13 @@ describe("patch", () => {
       const dom = new JSDOM(`<div id="0">Old text</div>`);
 
       const expectedDom = new JSDOM(`
-      <div id="0">
-          <div id="0.0">child1Text</div>
-      </div>`);
+          <div id="0">
+              <div id="0.0">child1Text</div>
+          </div>`);
 
       // WHEN
-      patch(dom.window.document, differences);
+      global.document = dom.window.document;
+      patch(differences);
 
       // THEN
       expect(dom.window.document.getElementById("0").children.length).toEqual(1);
@@ -146,13 +152,14 @@ describe("patch", () => {
       const dom = new JSDOM(`<div id="0">Old text</div>`);
 
       const expectedDom = new JSDOM(`
-      <div id="0">
-          <div id="0.0">child1Text</div>
-          <div id="0.1">child2Text</div>
-      </div>`);
+          <div id="0">
+              <div id="0.0">child1Text</div>
+              <div id="0.1">child2Text</div>
+          </div>`);
 
       // WHEN
-      patch(dom.window.document, differences);
+      global.document = dom.window.document;
+      patch(differences);
 
       // THEN
       expect(dom.window.document.getElementById("0").children.length).toEqual(2);
@@ -193,16 +200,17 @@ describe("patch", () => {
       const dom = new JSDOM(`<div id="0">Old text</div>`);
 
       const expectedDom = new JSDOM(`
-      <div id="0">
-          <div id="0.0">
-              <div id="0.0.0">child1.1Text</div>
-              <div id="0.0.1">child1.2Text</div>
-          </div>
-          <div id="0.1">child2Text</div>
-      </div>`);
+          <div id="0">
+              <div id="0.0">
+                  <div id="0.0.0">child1.1Text</div>
+                  <div id="0.0.1">child1.2Text</div>
+              </div>
+              <div id="0.1">child2Text</div>
+          </div>`);
 
       // WHEN
-      patch(dom.window.document, differences);
+      global.document = dom.window.document;
+      patch(differences);
 
       // THEN
       expect(dom.window.document.getElementById("0").children.length).toEqual(2);
@@ -232,24 +240,20 @@ describe("patch", () => {
         },
       ];
       const dom = new JSDOM(`<button id="0" onclick={previousOnClick}}>Click on button</button>`);
-      // NB: Not ideal to have to add the event listener in the test (but couldn't find a better way to test the code)
-      dom.window.document.getElementById("0").addEventListener("click", previousOnClick);
-      dom.window.document.getElementById("0").eventListened = previousOnClick;
-
       const expectedDom = new JSDOM(`<button id="0" onclick={newOnClick}}>Click on button</button>`);
 
       // WHEN
-      patch(dom.window.document, differences);
+      global.document = dom.window.document;
+      patch(differences);
 
       // THEN
-      dom.window.document.getElementById("0").click();
+      document.getElementById("0").click();
       // Ensures that the event listener corresponds to the new onClick function (and not the previous one)
       expect(console.log).toHaveBeenCalledWith("newOnClick");
       expect(console.log).not.toHaveBeenCalledWith("previousOnClick");
       // Ensures that the previous event listener has been removed (only called once not twice)
       expect(console.log).toHaveBeenCalledTimes(1);
     });
-
     test("change onclick property twice in a row", () => {
       /**
        * As compared to the test above, this one does _NOT_ add manually the 'addEventListener' nor the 'eventListened'
@@ -287,19 +291,16 @@ describe("patch", () => {
       ];
 
       const dom = new JSDOM(`<button id="0" onclick={previousOnClick}}>Click on button</button>`);
-      // NB: Not ideal to have to add the event listener in the test (but couldn't find a better way to test the code)
-      dom.window.document.getElementById("0").addEventListener("click", previousOnClick);
-      dom.window.document.getElementById("0").eventListened = previousOnClick;
-
       const expectedDom1 = new JSDOM(`<button id="0" onclick={newOnClick}}>Click on button</button>`);
       const expectedDom2 = new JSDOM(`<button id="0" onclick={yetAnotherOnClick}}>Click on button</button>`);
 
       // WHEN
-      patch(dom.window.document, differences1); // Expect to have expectedDom1 at this stage
-      patch(dom.window.document, differences2); // Expect to have expectedDom2 at this stage
+      global.document = dom.window.document;
+      patch(differences1); // Expect to have expectedDom1 at this stage
+      patch(differences2); // Expect to have expectedDom2 at this stage
 
       // THEN
-      dom.window.document.getElementById("0").click();
+      document.getElementById("0").click();
       // Ensures that the event listener corresponds to the new onClick function (and not any of the previous ones)
       expect(console.log).toHaveBeenCalledWith("yetAnotherOnClick");
       expect(console.log).not.toHaveBeenCalledWith("previousOnClick");

@@ -1,13 +1,13 @@
 import { createDOMTree, pathToDOMId, updateDOMElementOnClick, updateDOMElementText } from "./createDOMTree";
 import { ModificationToApply, WithEventListened } from "./types";
 
-export const patch = (document: Document, modificationsToApply: ModificationToApply[]): void => {
+export const patch = (modificationsToApply: ModificationToApply[]): void => {
   modificationsToApply.forEach((modificationToApply) => {
     const elementDOMId = pathToDOMId(modificationToApply.path);
     const elementToUpdate: WithEventListened<HTMLElement> = document.getElementById(elementDOMId);
 
     if (modificationToApply.type === "setChildren") {
-      createDOMTree(document, modificationToApply.node, elementToUpdate);
+      createDOMTree(modificationToApply.node, elementToUpdate);
     }
 
     if (modificationToApply.type === "setOnClick") {
