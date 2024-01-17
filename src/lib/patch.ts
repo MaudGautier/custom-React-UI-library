@@ -1,26 +1,35 @@
 import { createSubTree } from "./createSubtree";
-import { ModificationToApply, Path, WithEventListened } from "./types";
+import { ModificationToApply, OnClick, Path, WithEventListened, Text, StringPath } from "./types";
 
-export const pathToDomId = (path: Path) => path.join(".");
+export const pathToDomId = (path: Path | StringPath) => path.join(".");
+
+export const updateOnClick = (element: WithEventListened<HTMLElement>, onClick: OnClick): void => {
+  // Remove the previous event listener to avoid having multiple events firing when clicking once on an element
+  // (i.e. avoid performing the "onClick" action multiple times)
+  element.removeEventListener("click", element.eventListened);
+  element.addEventListener("click", onClick);
+  element.eventListened = onClick;
+};
+
+export const updateText = (element: WithEventListened<HTMLElement>, text: Text): void => {
+  element.textContent = text.toString();
+};
 
 export const patch = (document: Document, modificationsToApply: ModificationToApply[]): void => {
-  modificationsToApply.forEach((modifToApply) => {
-    const elementToUpdate: WithEventListened<HTMLElement> = document.getElementById(pathToDomId(modifToApply.path));
+  modificationsToApply.forEach((modificationToApply) => {
+    const elementPath = pathToDomId(modificationToApply.path);
+    const elementToUpdate: WithEventListened<HTMLElement> = document.getElementById(elementPath);
 
-    if (modifToApply.type === "setChildren") {
-      createSubTree(document, modifToApply.children, elementToUpdate.id);
+    if (modificationToApply.type === "setChildren") {
+      createSubTree(document, modificationToApply.children, elementToUpdate.id);
     }
 
-    if (modifToApply.type === "setOnClick") {
-      // Remove the previous event listener to avoid having multiple events firing when clicking once on an element
-      // (i.e. avoid performing the "onClick" action multiple times)
-      elementToUpdate.removeEventListener("click", elementToUpdate.eventListened);
-      elementToUpdate.addEventListener("click", modifToApply.onClick);
-      elementToUpdate.eventListened = modifToApply.onClick;
+    if (modificationToApply.type === "setOnClick") {
+      updateOnClick(elementToUpdate, modificationToApply.onClick);
     }
 
-    if (modifToApply.type === "setText") {
-      elementToUpdate.textContent = modifToApply.children.toString();
+    if (modificationToApply.type === "setText") {
+      updateText(elementToUpdate, modificationToApply.children);
     }
   });
 };

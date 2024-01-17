@@ -1,49 +1,56 @@
 import { isText } from "./diff";
 import { Text, VirtualDomElement, WithEventListened } from "./types";
+import { pathToDomId, updateOnClick, updateText } from "./patch";
 
 const isALeaf = isText;
-const updateLeaf = (leafNode: HTMLElement, text: Text): void => {
-  leafNode.textContent = text.toString();
-};
 
-const createElement = (
+const createHTMLElement = (
   document: Document,
   virtualDomElement: VirtualDomElement,
-  currentElementIndex: number,
-  parentId: string
-) => {
-  const element: WithEventListened<HTMLDivElement | HTMLButtonElement> = document.createElement(virtualDomElement.tag);
-  const currentElementId = parentId + "." + currentElementIndex;
-  element.id = currentElementId;
+  elementDomId: string
+): WithEventListened<HTMLDivElement | HTMLButtonElement> => {
+  // Create HTML element
+  const element = document.createElement(virtualDomElement.tag);
+  element.id = elementDomId;
 
-  // Add event listener if onclick
+  // Update onClick
   if (virtualDomElement.onClick) {
-    // Remove the previous event listener to avoid having multiple events firing when clicking once on an element
-    // (i.e. avoid performing the "onClick" action multiple times)
-    element.removeEventListener("click", element.eventListened);
-    element.addEventListener("click", virtualDomElement.onClick);
-    element.eventListened = virtualDomElement.onClick;
+    updateOnClick(element, virtualDomElement.onClick);
   }
 
-  // STOP CONDITION
-  if (isALeaf(virtualDomElement.children)) {
-    updateLeaf(element, virtualDomElement.children);
+  // Update text
+  if (isText(virtualDomElement.children)) {
+    updateText(element, virtualDomElement.children);
+  }
 
+  return element;
+};
+
+const _createSubTree = (document: Document, virtualDomElement: VirtualDomElement, elementDomId: string) => {
+  const element = createHTMLElement(document, virtualDomElement, elementDomId);
+
+  // STOP CONDITION: If is a leaf, then return this element
+  if (isALeaf(virtualDomElement.children)) {
     return element;
   }
 
+  // Otherwise, recursively create all children elements
   const children = virtualDomElement.children;
   const childrenElements = children.map((child, childIndex) =>
-    createElement(document, child, childIndex, currentElementId)
+    _createSubTree(document, child, pathToDomId([elementDomId, childIndex]))
   );
   element.replaceChildren(...childrenElements);
 
   return element;
 };
 
-export const createSubTree = (document: Document, children: VirtualDomElement[], rootId: string) => {
-  const childrenElements = children.map((child, index) => createElement(document, child, index, rootId));
-
+// TODO: createSubTree and _createSubTree can be refactored together once I pass the parent virtualDomElement (instead of children)
+export const createSubTree = (document: Document, virtualDomElementChildren: VirtualDomElement[], rootId: string) => {
   const rootElement = document.getElementById(rootId);
+
+  const childrenElements = virtualDomElementChildren.map((child, childIndex) =>
+    _createSubTree(document, child, pathToDomId([rootId, childIndex]))
+  );
+
   rootElement.replaceChildren(...childrenElements);
 };

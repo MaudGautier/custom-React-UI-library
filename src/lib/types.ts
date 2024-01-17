@@ -14,6 +14,7 @@ export type VirtualDomElement = {
 };
 
 export type Path = [0, ...number[]];
+export type StringPath = (string | number)[];
 
 export type OnClick = () => void;
 
