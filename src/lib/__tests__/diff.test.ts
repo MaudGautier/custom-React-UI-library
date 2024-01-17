@@ -1,6 +1,6 @@
 import { diff } from "../diff";
 
-import { VirtualDomElement } from "../types";
+import { ModificationToApply, VirtualDomElement } from "../types";
 
 describe("Diff algo between two virtual dom", () => {
   describe("Children are Text (string)", () => {
@@ -19,7 +19,8 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(elementsToUpdate).toEqual([]);
+      const expectedModifications: ModificationToApply[] = [];
+      expect(elementsToUpdate).toEqual(expectedModifications);
     });
 
     test("Two identical nodes with different children are different", () => {
@@ -37,13 +38,14 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(elementsToUpdate).toEqual([
+      const expectedModifications: ModificationToApply[] = [
         {
           path: [0],
           text: "element2",
           type: "setText",
         },
-      ]);
+      ];
+      expect(elementsToUpdate).toEqual(expectedModifications);
     });
   });
 
@@ -63,7 +65,8 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(elementsToUpdate).toEqual([]);
+      const expectedModifications: ModificationToApply[] = [];
+      expect(elementsToUpdate).toEqual(expectedModifications);
     });
 
     test("Two identical nodes with different children are different", () => {
@@ -81,13 +84,14 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(elementsToUpdate).toEqual([
+      const expectedModifications: ModificationToApply[] = [
         {
           path: [0],
           text: 2,
           type: "setText",
         },
-      ]);
+      ];
+      expect(elementsToUpdate).toEqual(expectedModifications);
     });
   });
 
@@ -117,13 +121,14 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(elementsToUpdate).toEqual([
+      const expectedModifications: ModificationToApply[] = [
         {
           path: [0, 0],
           type: "setText",
           text: "newText",
         },
-      ]);
+      ];
+      expect(elementsToUpdate).toEqual(expectedModifications);
     });
 
     test("2 nodes with 2 children, one of which has different text should change", () => {
@@ -159,13 +164,14 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(elementsToUpdate).toEqual([
+      const expectedModifications: ModificationToApply[] = [
         {
           type: "setText",
           path: [0, 1],
           text: "child2newText",
         },
-      ]);
+      ];
+      expect(elementsToUpdate).toEqual(expectedModifications);
     });
 
     test("newNode has more children than old one", () => {
@@ -197,7 +203,7 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(elementsToUpdate).toEqual([
+      const expectedModifications: ModificationToApply[] = [
         {
           type: "setChildren",
           path: [0],
@@ -212,7 +218,8 @@ describe("Diff algo between two virtual dom", () => {
             },
           ],
         },
-      ]);
+      ];
+      expect(elementsToUpdate).toEqual(expectedModifications);
     });
 
     test("newNode has fewer children than old one", () => {
@@ -244,7 +251,7 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(elementsToUpdate).toEqual([
+      const expectedModifications: ModificationToApply[] = [
         {
           type: "setChildren",
           path: [0],
@@ -255,7 +262,8 @@ describe("Diff algo between two virtual dom", () => {
             },
           ],
         },
-      ]);
+      ];
+      expect(elementsToUpdate).toEqual(expectedModifications);
     });
   });
 
@@ -284,13 +292,14 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(elementsToUpdate).toEqual([
+      const expectedModifications: ModificationToApply[] = [
         {
           type: "setText",
           path: [0],
           text: "new children",
         },
-      ]);
+      ];
+      expect(elementsToUpdate).toEqual(expectedModifications);
     });
 
     test("Old node has string while new has array", () => {
@@ -317,7 +326,7 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(elementsToUpdate).toEqual([
+      const expectedModifications: ModificationToApply[] = [
         {
           type: "setChildren",
           path: [0],
@@ -332,7 +341,8 @@ describe("Diff algo between two virtual dom", () => {
             },
           ],
         },
-      ]);
+      ];
+      expect(elementsToUpdate).toEqual(expectedModifications);
     });
   });
 
@@ -493,7 +503,7 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(elementsToUpdate).toEqual([
+      const expectedModifications: ModificationToApply[] = [
         {
           type: "setText",
           path: [0, 0, 0],
@@ -519,7 +529,8 @@ describe("Diff algo between two virtual dom", () => {
             },
           ],
         },
-      ]);
+      ];
+      expect(elementsToUpdate).toEqual(expectedModifications);
     });
   });
 
@@ -545,21 +556,20 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(JSON.stringify(elementsToUpdate)).toEqual(
-        JSON.stringify([
-          {
-            path: [0],
-            type: "setChildren",
-            children: [
-              {
-                tag: "button",
-                children: "Click on button",
-                onClick: () => {},
-              },
-            ],
-          },
-        ])
-      );
+      const expectedModifications: ModificationToApply[] = [
+        {
+          path: [0],
+          type: "setChildren",
+          children: [
+            {
+              tag: "button",
+              children: "Click on button",
+              onClick: () => {},
+            },
+          ],
+        },
+      ];
+      expect(JSON.stringify(elementsToUpdate)).toEqual(JSON.stringify(expectedModifications));
     });
 
     test("2 button nodes with different `onClick` properties are different", () => {
@@ -593,17 +603,16 @@ describe("Diff algo between two virtual dom", () => {
       const elementsToUpdate = diff(oldVirtualDomElement, newVirtualDomElement);
 
       // THEN
-      expect(JSON.stringify(elementsToUpdate)).toEqual(
-        JSON.stringify([
-          {
-            path: [0, 0],
-            type: "setOnClick",
-            onClick: () => {
-              console.log("New button");
-            },
+      const expectedModifications: ModificationToApply[] = [
+        {
+          path: [0, 0],
+          type: "setOnClick",
+          onClick: () => {
+            console.log("New button");
           },
-        ])
-      );
+        },
+      ];
+      expect(JSON.stringify(elementsToUpdate)).toEqual(JSON.stringify(expectedModifications));
     });
   });
 });
