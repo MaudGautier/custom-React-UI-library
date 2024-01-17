@@ -1,19 +1,6 @@
 import { createSubTree } from "./createSubtree";
-import { ModificationToApply, OnClick, Path, WithEventListened, Text, StringPath } from "./types";
-
-export const pathToDomId = (path: Path | StringPath) => path.join(".");
-
-export const updateOnClick = (element: WithEventListened<HTMLElement>, onClick: OnClick): void => {
-  // Remove the previous event listener to avoid having multiple events firing when clicking once on an element
-  // (i.e. avoid performing the "onClick" action multiple times)
-  element.removeEventListener("click", element.eventListened);
-  element.addEventListener("click", onClick);
-  element.eventListened = onClick;
-};
-
-export const updateText = (element: WithEventListened<HTMLElement>, text: Text): void => {
-  element.textContent = text.toString();
-};
+import { ModificationToApply, WithEventListened } from "./types";
+import { pathToDomId, updateOnClick, updateText } from "./utils";
 
 export const patch = (document: Document, modificationsToApply: ModificationToApply[]): void => {
   modificationsToApply.forEach((modificationToApply) => {

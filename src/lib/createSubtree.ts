@@ -1,6 +1,6 @@
 import { isText } from "./diff";
-import { Text, VirtualDomElement, WithEventListened } from "./types";
-import { pathToDomId, updateOnClick, updateText } from "./patch";
+import { VirtualDomElement, WithEventListened } from "./types";
+import { pathToDomId, updateOnClick, updateText } from "./utils";
 
 const isALeaf = isText;
 
